@@ -12,7 +12,7 @@ $(() => {
     e.preventDefault();
     let user_input = [];
     let count = 0;
-    $('form ').children().find('input').each(function() {
+    $('form').children().find('input').each(function() {
       let input_val = $(this).val();
       if (count === 0 && input_val.length === 0) {
         user_input = [];
@@ -22,7 +22,7 @@ $(() => {
         user_input = [];
         alert('Please enter a name for your poll!');
         return false;
-      } else if (count >= 2 && input_val.length === 0) {
+      } else if (count >= 2 && count % 2 === 0 && input_val.length === 0) {
         alert('Please enter your option or remove the field!');
         user_input = [];
         return false;
@@ -41,30 +41,34 @@ $(() => {
 
   function createOption (num) {
     let $poll = $('<div class="form-group"></div>');
-    let $label = $(`<label for="option">${num + 1}:</label>`);
+    let $label = $(`<label>${num + 1}:</label>`);
     let $input = $('<input type="text" class="form-control" placeholder="Enter your option">');
+    let $description_label = $(`<label>Description:</label>`);
+    let $description = $('<input type="text" class="form-control" placeholder="Enter a description (Optional)">');
     let $del_btn = $('<button><i class="fas fa-times"></i></button>');
     $del_btn.on('click', function(e) {
       e.preventDefault();
       let addBtnRemoved = false;
-      if ($poll.find('label').text().replace(/\:/, '') === (optionCount).toString()) {
+      if ($($poll.children('label')['0']).text().replace(/\:/, '') === (optionCount).toString()) {
         addBtnRemoved = true;
       }
       optionCount--;
       $poll.remove();
-      let children = $('.options').children();
+      let $children = $('.options').children();
       let counter = optionCount - 1;
-      children.each(function() {
+      $children.each(function() {
         if (addBtnRemoved && counter === 0) {
           let $add_btn = createAddBtn();
           $(this).append($add_btn);
         }
-        $(this).find('label').text(`${optionCount - counter}:`);
+        $($(this).children('label')['0']).text(`${optionCount - counter}:`);
         counter--;
       });
     });
     $poll.append($label);
     $poll.append($input);
+    $poll.append($description_label);
+    $poll.append($description);
     $poll.append($del_btn);
     return $poll;
   }
