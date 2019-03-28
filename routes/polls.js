@@ -33,5 +33,23 @@ module.exports = (knex) => {
        })
   });
 
+  router.get('/:id/', (req, res) => {
+    let id = req.params.id;
+    knex.select('id').from('polls')
+    .where('submission_url_id', '=', id)
+    .then(function(result) {
+      knex.select('*').from('choices')
+      .where('poll_id', '=', result[0].id)
+      .then(function(choices){
+        res.send(choices);
+      });
+    });
+  });
+
+  router.post('/:id/', (req, res) => {
+    let ranked_choices = req.body.choiceArr;
+    
+  });
+
   return router;
 }
