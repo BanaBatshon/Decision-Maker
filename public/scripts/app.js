@@ -33,8 +33,11 @@ $(() => {
     });
     if (user_input.length > 0) {
       $.post('/polls/new', {data: user_input})
-      .done(function(){
-        console.log('done posting');
+      .done(function(data){
+        let links = data;
+        let $container = $('.container');
+        $container.empty();
+        $container.append($(`<div><p>User link: ${links[0]}</p><p>Admin link ${links[1]}</p></div>`));
       });
     }
   });

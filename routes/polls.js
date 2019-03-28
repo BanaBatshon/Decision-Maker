@@ -12,8 +12,10 @@ module.exports = (knex) => {
 
   router.post("/new", (req, res) => {
     let data = req.body.data;
+    let submission_url_id = generateRandomString();
+    let admin_url_id = generateRandomString();
     knex('polls').insert({creator_email: data[0], title: data[1], timestamp: new Date(), 
-      submission_url_id: generateRandomString(), admin_url_id: generateRandomString()})
+      submission_url_id: submission_url_id, admin_url_id: admin_url_id})
       .returning('id')
       .then( function (id) {
         let choices_data = [];
@@ -26,7 +28,7 @@ module.exports = (knex) => {
         }
         knex('choices').insert(choices_data)
           .then( function (result) {
-            
+            res.send([submission_url_id, admin_url_id]);
           });
        })
   });
