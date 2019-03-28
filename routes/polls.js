@@ -1,3 +1,4 @@
+// create all routs or at least try to
 "use strict";
 
 const express = require('express');
@@ -9,7 +10,6 @@ function generateRandomString() {
 }
 
 module.exports = (knex) => {
-
   router.post("/new", (req, res) => {
     let data = req.body.data;
     let submission_url_id = generateRandomString();
@@ -32,6 +32,24 @@ module.exports = (knex) => {
           });
        })
   });
+
+  // post request for form
+  router.post("/:id", (req,res) => {
+  //   knex('polls')
+  //   .insert({ creator_email: req.body.email, timestamp: new Date(), submission_url_id: generateRandomString(), admin_url_id: generateRandomString() })
+  //   knex('choices')
+  //   .insert({ title: req.body.title, description: req.body.description})
+  // // res.redirect...admin 
+  })
+
+  router.get('/:id/admin/:id', (req,res) => {
+    // res.render('admin');
+  })
+
+  // lets the user update the poll
+  router.get('/:id', (req,res) => {
+
+  })
 
   return router;
 }
