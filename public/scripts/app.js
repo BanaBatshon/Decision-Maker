@@ -1,12 +1,43 @@
 $(() => {
-  let options_div = $('.options');
+  let $options_div = $('.options');
   let optionCount = 2;
 
-  options_div.append(createOption(0));
-  $poll = createOption(1);
+  $options_div.append(createOption(0));
+  let $poll = createOption(1);
   let $add_btn = createAddBtn();
   $poll.append($add_btn);
-  options_div.append($poll);
+  $options_div.append($poll);
+
+  $options_div.siblings('button').on('click', function(e){
+    e.preventDefault();
+    let user_input = [];
+    let count = 0;
+    $('form ').children().find('input').each(function() {
+      let input_val = $(this).val();
+      if (count === 0 && input_val.length === 0) {
+        user_input = [];
+        alert('Please enter a valid email!');
+        return false;
+      } else if (count === 1 && input_val.length === 0) {
+        user_input = [];
+        alert('Please enter a name for your poll!');
+        return false;
+      } else if (count >= 2 && input_val.length === 0) {
+        alert('Please enter your option or remove the field!');
+        user_input = [];
+        return false;
+      } else {
+        user_input.push(input_val);
+      }
+      count++;
+    });
+    if (user_input.length > 0) {
+      $.post('/polls/new', {data: user_input})
+      .done(function(){
+        console.log('done posting');
+      });
+    }
+  });
 
   function createOption (num) {
     let $poll = $('<div class="form-group"></div>');
@@ -44,7 +75,7 @@ $(() => {
       e.preventDefault();
       let $newOption = createOption(optionCount);
       $newOption.append(this);
-      options_div.append($newOption);
+      $options_div.append($newOption);
       optionCount++;
     });
     return $add_btn;
