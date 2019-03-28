@@ -13,6 +13,3 @@ exports.seed = function(knex, Promise) {
     ])
   });
 };
-
-
-// knex('submission_choices').insert({}),
