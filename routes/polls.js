@@ -10,8 +10,8 @@ const email = require('../email_settings');
 let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: email.modules.email,
-    pass: email.modules.password
+    user: email.email,
+    pass: email.password
   }
 });
 
