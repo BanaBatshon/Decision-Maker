@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <title>Home Page</title>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
   </head>
 
@@ -19,39 +19,10 @@
       <a href="#">view the results here</a>
       <a href="#">Share the results here</a>
     </li>
-    <h2>Results</h2>
-    <main id='chartContainer'>
-        <script type="text/javascript">
-          window.onload = function () {
-            var chart = new CanvasJS.Chart("chartContainer",
-            {
-              legend: {
-                maxWidth: 350,
-                itemWidth: 120
-              },
-              data: [
-              {
-                type: "pie",
-                showInLegend: true,
-                legendText: "{indexLabel}",
-                dataPoints: [
-                  { y: 4181563 },
-                  { y: 2175498 },
-                  { y: 3125844 },
-                  { y: 1176121 },
-                  { y: 1727161 },
-                  { y: 4303364 },
-                  { y: 1717786 }
-                ]
-              }
-              ]
-            });
-            chart.render();
-          }
-        </script>
-    </main>
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
-    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <h2>Results</h2>    
+    <table id='resultsTable'></table>
+    <main id='chartContainer' class='clearfix'></main>
+
+
   </body>
 </html>
