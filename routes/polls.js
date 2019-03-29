@@ -9,6 +9,15 @@ function generateRandomString() {
   return crypto.randomBytes(3).toString('hex');
 }
 
+function bordaCount (rankingArr, numChoices) {
+  const percentagePerPoint = (numChoices * (numChoices + 1)) / 2
+  const points = [];
+  for (let rank of rankingArr) {
+    points.push(((numChoices + 1) - rank) * percentagePerPoint)
+  }
+  return points.reduce((a,b) => a + b, 0) / points.length //finds final percentage
+}
+
 module.exports = (knex) => {
   router.post("/new", (req, res) => {
     let data = req.body.data;
@@ -42,35 +51,29 @@ module.exports = (knex) => {
   // // res.redirect...admin 
   })
 
-  router.get('/', (req,res) => {
-    knex('submission_choices')
-    .select('choice_id', 'rank')
-    .orderBy('choice_id')
+  router.get('/:id/admin/:id', (req,res) => {
+    knex('submission_choices').join('choices', {'submission_choices.choice_id': 'choices.id'})
+    .select('choice_id', 'rank', 'title')
+    .orderBy('title')
     .then(function(result) {
       const ranks = {};
       let size = 0;
       for (let row of result) {
-        if (ranks[row.choice_id] === undefined) {
+        if (ranks[row.title] === undefined) {
           size ++;
-          ranks[row.choice_id] = [row.rank]
+          ranks[row.title] = [row.rank];
         } else {
-          ranks[row.choice_id].push(row.rank)
+          ranks[row.title].push(row.rank)
         }
       }
-      return (ranks, size);
-    })
-    //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
-    .then(function(ranks, size) {
+      //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
       const percentageRanks = {};
       for (let choice in ranks) {
-        if(choice.hasOwnProperty(key)) {
-          var value = rank[key];
+        let value = ranks[choice];
           percentageRanks[choice] = bordaCount(value, size);
-        }
       }
       res.send(percentageRanks);
     })
-    res.render('admin');
   })
 
   // lets the user update the poll
