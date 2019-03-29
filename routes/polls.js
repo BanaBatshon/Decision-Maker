@@ -33,23 +33,35 @@ module.exports = (knex) => {
        })
   });
 
-  // post request for form
-  router.post("/:id", (req,res) => {
-  //   knex('polls')
-  //   .insert({ creator_email: req.body.email, timestamp: new Date(), submission_url_id: generateRandomString(), admin_url_id: generateRandomString() })
-  //   knex('choices')
-  //   .insert({ title: req.body.title, description: req.body.description})
-  // // res.redirect...admin 
-  })
+  router.get('/:id/', (req, res) => {
+    let id = req.params.id;
+    knex.select('id').from('polls')
+    .where('submission_url_id', '=', id)
+    .then(function(result) {
+      knex.select('*').from('choices')
+      .where('poll_id', '=', result[0].id)
+      .then(function(choices){
+        res.send(choices);
+      });
+    });
+  });
 
-  router.get('/:id/admin/:id', (req,res) => {
-    // res.render('admin');
-  })
-
-  // lets the user update the poll
-  router.get('/:id', (req,res) => {
-
-  })
+  router.post('/:id/', (req, res) => {
+    let name = req.body.name;
+    let ranked_choices = req.body.choiceArr;
+    let poll_id = req.body.poll_id;
+    knex('submissions').insert({'poll_id': poll_id, 'timestamp': new Date(), 'name': name})
+      .returning('id')
+      .then( function (id) {
+        for(let choice of ranked_choices) {
+          choice['submission_id'] = id[0];
+        }
+        knex('submission_choices').insert(ranked_choices)
+          .then( function (result) {
+            res.send();
+          });
+       })
+  });
 
   return router;
 }
