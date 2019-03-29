@@ -6,7 +6,7 @@ const router  = express.Router();
 const crypto = require('crypto');
 const nodemailer = require("nodemailer");
 const email = require('../email_settings');
-console.log(email.modules.email);
+
 let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
