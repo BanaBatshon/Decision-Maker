@@ -43,18 +43,29 @@ module.exports = (knex) => {
   })
 
   router.get('/', (req,res) => {
-
-  knex('submission_choices').select('choice_id', 'rank').orderBy('choice_id').then(function(result) {
-    const ranks = {};
-    for (let row of result) {
-      if (ranks[row.choice_id] === undefined) {
-        ranks[row.choice_id] = [row.rank]
-      } else {
-        ranks[row.choice_id].push(row.rank)
+    knex('submission_choices')
+    .select('choice_id', 'rank')
+    .orderBy('choice_id')
+    .then(function(result) {
+      const ranks = {};
+      for (let row of result) {
+        if (ranks[row.choice_id] === undefined) {
+          ranks[row.choice_id] = [row.rank]
+        } else {
+          ranks[row.choice_id].push(row.rank)
+        }
       }
-    }
-    console.log(ranks);
-  })
+    })
+    //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
+    .then(function(ranks) {
+      const percentageRanks = {};
+      for (let choice in ranks) {
+        if(choice.hasOwnProperty(key)) {
+          var value = rank[key];
+          percentageRanks[choice] = bordaCount(value);
+        }
+      }
+    })
     // res.render('admin');
   })
 
