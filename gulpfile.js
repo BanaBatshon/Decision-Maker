@@ -54,4 +54,5 @@ exports.css = css;
 exports.js = js;
 exports.watch = watch;
 exports.es = es;
+exports.clean = clean;
 exports.build = build;
