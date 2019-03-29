@@ -42,27 +42,30 @@ module.exports = (knex) => {
   // // res.redirect...admin 
   })
 
-  router.get('/', (req,res) => {
+  router.get('/:id/admin/:id', (req,res) => {
     knex('submission_choices')
     .select('choice_id', 'rank')
     .orderBy('choice_id')
     .then(function(result) {
       const ranks = {};
+      let size = 0;
       for (let row of result) {
         if (ranks[row.choice_id] === undefined) {
+          size ++;
           ranks[row.choice_id] = [row.rank]
         } else {
           ranks[row.choice_id].push(row.rank)
         }
       }
+      return (ranks, size);
     })
     //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
-    .then(function(ranks) {
+    .then(function(ranks, size) {
       const percentageRanks = {};
       for (let choice in ranks) {
         if(choice.hasOwnProperty(key)) {
           var value = rank[key];
-          percentageRanks[choice] = bordaCount(value);
+          percentageRanks[choice] = bordaCount(value, size);
         }
       }
     })
