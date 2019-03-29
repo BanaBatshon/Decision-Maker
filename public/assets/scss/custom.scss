@@ -1,0 +1,138 @@
+@import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+// Override Variables
+$body-bg: #1A1B1D;
+$font-family-sans-serif: 'Lato', sans-serif;
+$font-family-base: $font-family-sans-serif;
+
+$jumbotron-padding: 0;
+$button-color: #89817D;
+$headings-color: #F4F4EB;   
+
+//Bootstrap sass Files
+@import "node_modules/bootstrap/scss/bootstrap";
+
+.heading-custom {
+  text-align: center;
+  padding: 4rem;
+}
+
+.card {
+  margin-bottom: 2rem;
+}
+
+.navbar {
+  width: 100%;
+  background: none !important;
+
+  @media(max-width:34em) {
+    background: black !important;
+  }
+  .navbar-brand {
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #fff;
+    font-size: 2.5em;
+  }
+
+  .nav-link {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.3em;
+  }
+
+  .nav-item {
+    padding: 0 1rem;
+
+    @media(max-wdith: 34em) {
+      padding: 0;
+    }
+
+    .nav-link {
+      @media(max-width: 34em) {
+        font-weight: normal;
+        color: #fff !important;
+      }
+    }
+  }
+}
+
+.jumbotron {
+  background-color: #9D5C65 !important;
+  // border-top: 3px solid rgb(219, 219, 219);
+  padding: 0;
+}
+
+.jumbotron-content h1 {
+  padding: 2.5rem 0 1.5rem 0;
+  font-size: 3em;
+  font-weight: 500;
+  color: #F4F4EB;
+}
+
+.jumbotron-content p {
+  font-size: 1.5em;
+  line-height: 1em;
+  color: #F4F4EB;
+  text-align: center;
+}
+
+.jumbotron-content button {
+  margin: 1em 0;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+}
+
+#how-it-works {
+  margin-bottom: 5rem;
+}
+
+.fa-large-icon {
+  font-size: 3em;
+  color: #9D5C65;
+}
+
+.card-title-how-it-works {
+  color: #000;
+}
+
+.footer-copyright {
+  background: #747F75;
+}
+
+.imageguy {
+  background: url('../../assets/img/dude.png');
+  background-size: contain;
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media screen and (max-width: 576px) { 
+  .jumbotron-content {
+    text-align: center;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 1.5em;
+    // background: #fff;
+  }
+
+  .jumbotron-content p{
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  .imageguy {
+    height: 300px;
+  }
+ }
+
+/* use @mixins */
+.btn-custom {
+  @include button-variant($button-color, darken($button-color, 7.5%), darken($button-color, 10%), lighten($button-color,5%), lighten($button-color, 10%), darken($button-color,30%));
+}
