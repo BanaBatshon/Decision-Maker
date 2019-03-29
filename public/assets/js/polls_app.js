@@ -8,7 +8,7 @@ $(() => {
   $options_div.append($poll);
   $('.row-add-row-btn').prepend($add_btn);
 
-  $options_div.siblings('button').on('click', function(e){
+  $('#poll-submit-btn').on('click', function(e){
     e.preventDefault();
     let user_input = [];
     let count = 0;
@@ -31,6 +31,7 @@ $(() => {
       }
       count++;
     });
+
     if (user_input.length > 0) {
       $.post('/polls/new', {data: user_input})
       .done(function(data){
