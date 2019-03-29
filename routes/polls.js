@@ -27,7 +27,7 @@ module.exports = (knex) => {
     knex('polls').insert({creator_email: data[0], title: data[1], timestamp: new Date(), 
       submission_url_id: submission_url_id, admin_url_id: admin_url_id})
       .returning('id')
-      .then( function (id) {
+      .then( (id) => {
         let choices_data = [];
         for (let i = 2; i < data.length; i+=2) {
           let choice = {};
@@ -37,7 +37,7 @@ module.exports = (knex) => {
           choices_data.push(choice);
         }
         knex('choices').insert(choices_data)
-          .then( function (result) {
+          .then((result) => {
             let html = `<div><ul><li>Share link: http://localhost:8080/fill_poll.html?key=${submission_url_id}</li>
             <li>Admin link: http://localhost:8080/admin.html?adminkey=${admin_url_id}&key=${submission_url_id}</li></ul></div>`;
             let mailOptions = {
@@ -73,12 +73,12 @@ module.exports = (knex) => {
     let poll_id = req.body.poll_id;
     knex('submissions').insert({'poll_id': poll_id, 'timestamp': new Date(), 'name': name})
       .returning('id')
-      .then( function (id) {
+      .then( (id) => {
         for(let choice of ranked_choices) {
           choice['submission_id'] = id[0];
         }
         knex('submission_choices').insert(ranked_choices)
-          .then( function (result) {
+          .then( (result) => {
             res.send();
           });
        })
