@@ -5,8 +5,8 @@ $(() => {
   $options_div.append(createOption(0));
   let $poll = createOption(1);
   let $add_btn = createAddBtn();
-  $poll.append($add_btn);
   $options_div.append($poll);
+  $('.row-add-row-btn').prepend($add_btn);
 
   $options_div.siblings('button').on('click', function(e){
     e.preventDefault();
@@ -43,16 +43,20 @@ $(() => {
   });
 
   function createOption (num) {
-    let $poll = $('<div class="form-group"></div>');
-    let $label = $(`<label>${num + 1}:</label>`);
-    let $input = $('<input type="text" class="form-control" placeholder="Enter your option">');
-    let $description_label = $(`<label>Description:</label>`);
-    let $description = $('<input type="text" class="form-control" placeholder="Enter a description (Optional)">');
-    let $del_btn = $('<button><i class="fas fa-times"></i></button>');
+    let $poll = $('<div class="form-group row d-flex justify-content-center">'); 
+    let $counterColDiv = $('<div class="col-1 p-2">');
+    let $label = $(`<label class="col-sm-1 col-form-label">${num + 1}.</label>`);
+    let $optionColDiv= $('<div class="col-4 p-2">');
+    $input = $('<input type="text" class="form-control form-control-lg" placeholder="Option (Required)">');
+    let $descColDiv = $('<div class="col-4 p-2">');
+    let $description = $('<input type="text" class="form-control form-control-lg" placeholder="Description (Optional)">');
+    let $delColDiv = $('<div class="col-1 p-2">');
+    let $del_btn = $('<button class="btn"><i class="fa fa-trash form-icon"></i></button>');
+
     $del_btn.on('click', function(e) {
       e.preventDefault();
       let addBtnRemoved = false;
-      if ($($poll.children('label')['0']).text().replace(/\:/, '') === (optionCount).toString()) {
+      if ($($poll.children('label')['0']).text().replace(/\./, '') === (optionCount).toString()) {
         addBtnRemoved = true;
       }
       optionCount--;
@@ -60,29 +64,29 @@ $(() => {
       let $children = $('.options').children();
       let counter = optionCount - 1;
       $children.each(function() {
-        if (addBtnRemoved && counter === 0) {
-          let $add_btn = createAddBtn();
-          $(this).append($add_btn);
-        }
-        $($(this).children('label')['0']).text(`${optionCount - counter}:`);
+        $($(this).children('label')['0']).text(`${optionCount - counter}.`);
         counter--;
       });
     });
-    $poll.append($label);
-    $poll.append($input);
-    $poll.append($description_label);
-    $poll.append($description);
-    $poll.append($del_btn);
+
+      $counterColDiv.append($label);
+      $poll.append($label);
+      $optionColDiv.append($input);
+      $poll.append($optionColDiv);
+      $descColDiv.append($description);
+      $poll.append($descColDiv);
+      $delColDiv.append($del_btn);
+      $poll.append($delColDiv);
+      
     return $poll;
   }
 
   function createAddBtn() {
-    let $add_btn = $('<button><i class="fas fa-plus"></i></button>');
+    let $add_btn = $('<button type="button" class="btn btn-primary btn-lg">Add Row</button>');
     $add_btn.on('click', function(e) {
       e.preventDefault();
       let $newOption = createOption(optionCount);
-      $newOption.append(this);
-      $options_div.append($newOption);
+      $('.options').append($newOption);
       optionCount++;
     });
     return $add_btn;
