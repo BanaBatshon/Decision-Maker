@@ -8,10 +8,11 @@ $body-bg: #1A1B1D;
 $font-family-sans-serif: 'Lato', sans-serif;
 $font-family-base: $font-family-sans-serif;
 $white: #FFF;
+$terra-cotta-orange: #E26D5C;
 
 $jumbotron-padding: 0;
 $button-color: #89817D;
-$headings-color: #F4F4EB;   
+$headings-color: #F4F4EB;  
 
 //Bootstrap sass Files
 @import "node_modules/bootstrap/scss/bootstrap";
@@ -156,11 +157,41 @@ $headings-color: #F4F4EB;
 
 .form-icon {
   color: $white;
-  font-size: 1.5em;
+  font-size: 1.8em;
   margin-top: 0.3rem;
+}
+
+.sortable-number {
+  display: inline;
+  padding: 1.7rem;
+  background: #59344b3b;
+  margin-right: 1rem;
+}
+
+.list-group-item {
+  padding: 1.5rem 0;
+  background: #9D5C65;
+  border: 0;
+  margin-bottom: 1.3rem;
+}
+
+#respond-to-poll-options {
+  margin-top: 2em;
+  color: #000;
+}
+
+.choice-title {
+  font-weight: 700;
+}
+
+.choice-desc {
+  font-style: italic;
 }
 
 /* use @mixins */
 .btn-custom {
   @include button-variant($button-color, darken($button-color, 7.5%), darken($button-color, 10%), lighten($button-color,5%), lighten($button-color, 10%), darken($button-color,30%));
+}
+.btn-primary {
+  @include button-variant($terra-cotta-orange, darken($terra-cotta-orange, 7.5%), darken($terra-cotta-orange, 10%), lighten($terra-cotta-orange,5%), lighten($terra-cotta-orange, 10%), darken($terra-cotta-orange,30%));
 }
