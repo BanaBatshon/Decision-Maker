@@ -79,7 +79,21 @@ module.exports = (knex) => {
         }
         knex('submission_choices').insert(ranked_choices)
           .then( (result) => {
-            res.send();
+            knex.select('admin_url_id', 'submission_url_id', 'creator_email').from('polls')
+            .where('id', '=', poll_id)
+            .then((links) => {
+              let html = `<div><p>${name} has completed your poll!</p><br>
+              <p>Heres the link to your results/admin page: http://localhost:8080/admin.html?adminkey=${links[0].admin_url_id}&key=${links[0].submission_url_id}</p></div>`;
+              let mailOptions = {
+                from: '"Decision Maker App" <dcode416@gmail.com>', // sender address
+                to: links[0].creator_email, // list of receivers
+                subject: `${name} submitted your poll!`, // Subject line
+                html: html // html body
+              };
+              transporter.sendMail(mailOptions, (err, info) => {
+                res.send();
+              })
+            })
           });
        })
   });
