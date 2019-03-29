@@ -4,6 +4,16 @@
 const express = require('express');
 const router  = express.Router();
 const crypto = require('crypto');
+const nodemailer = require("nodemailer");
+const email = require('../email_settings');
+console.log(email.modules.email);
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: email.modules.email,
+    pass: email.modules.password
+  }
+});
 
 function generateRandomString() {
   return crypto.randomBytes(3).toString('hex');
@@ -28,7 +38,20 @@ module.exports = (knex) => {
         }
         knex('choices').insert(choices_data)
           .then( function (result) {
-            res.send([submission_url_id, admin_url_id]);
+            let html = `<div><ul><li>Share link: http://localhost:8080/fill_poll.html?key=${submission_url_id}</li>
+            <li>Admin link: http://localhost:8080/admin.html?adminkey=${admin_url_id}&key=${submission_url_id}</li></ul></div>`;
+            let mailOptions = {
+              from: '"Decision Maker App" <dcode416@gmail.com>', // sender address
+              to: data[0], // list of receivers
+              subject: "Thanks for creating a poll", // Subject line
+              html: html // html body
+            };
+          
+            transporter.sendMail(mailOptions, (err, info) => {
+              console.log(info);
+              console.log(err);
+              res.send();
+            })
           });
        })
   });
