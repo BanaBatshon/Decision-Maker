@@ -90,10 +90,12 @@ $(() => {
 });
 
 const bordaCount = function(rankingArr, numChoices) {
-  const percentagePerPoint = ((numChoices(numChoices - 1)) / 2) / 100
+  const percentagePerPoint = (numChoices * (numChoices + 1)) / 2
+  console.log(percentagePerPoint);
   const points = [];
   for (let rank of rankingArr) {
-    points.push(rank * percentagePerPoint)
+    points.push(((numChoices + 1) - rank) * percentagePerPoint)
   }
-    return points.reduce((a,b) => a + b, 0) / points.length //finds final percentage
+  console.log(points);
+  return points.reduce((a,b) => a + b, 0) / points.length //finds final percentage
 }
