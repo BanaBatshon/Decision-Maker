@@ -42,7 +42,19 @@ module.exports = (knex) => {
   // // res.redirect...admin 
   })
 
-  router.get('/:id/admin/:id', (req,res) => {
+  router.get('/', (req,res) => {
+
+  knex('submission_choices').select('choice_id', 'rank').orderBy('choice_id').then(function(result) {
+    const ranks = {};
+    for (let row of result) {
+      if (ranks[row.choice_id] === undefined) {
+        ranks[row.choice_id] = [row.rank]
+      } else {
+        ranks[row.choice_id].push(row.rank)
+      }
+    }
+    console.log(ranks);
+  })
     // res.render('admin');
   })
 
