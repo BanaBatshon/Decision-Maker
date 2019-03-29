@@ -42,7 +42,7 @@ module.exports = (knex) => {
   // // res.redirect...admin 
   })
 
-  router.get('/:id/admin/:id', (req,res) => {
+  router.get('/', (req,res) => {
     knex('submission_choices')
     .select('choice_id', 'rank')
     .orderBy('choice_id')
@@ -68,8 +68,9 @@ module.exports = (knex) => {
           percentageRanks[choice] = bordaCount(value, size);
         }
       }
+      res.send(percentageRanks);
     })
-    // res.render('admin');
+    res.render('admin');
   })
 
   // lets the user update the poll
