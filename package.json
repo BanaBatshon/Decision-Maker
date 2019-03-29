@@ -13,17 +13,26 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "bootstrap": "^4.3.1",
+    "del": "^4.0.0",
     "canvas": "^2.4.1",
     "dotenv": "^2.0.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "jquery": "^3.3.1",
     "knex": "^0.11.7",
     "knex-logger": "^0.1.0",
     "morgan": "^1.7.0",
     "node-sass-middleware": "^0.9.8",
-    "pg": "^6.0.2"
+    "pg": "^6.0.2",
+    "popper.js": "^1.14.7"
   },
   "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "gulp": "^4.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-terser": "^1.1.7",
     "nodemon": "^1.9.2"
   }
 }
