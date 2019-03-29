@@ -56,13 +56,13 @@ module.exports = (knex) => {
 
   router.get('/:id/', (req, res) => {
     let id = req.params.id;
-    knex.select('id').from('polls')
+    knex.select('id', 'title').from('polls')
     .where('submission_url_id', '=', id)
     .then(function(result) {
       knex.select('*').from('choices')
       .where('poll_id', '=', result[0].id)
       .then(function(choices){
-        res.send(choices);
+        res.send({'choices': choices, 'title': result[0].title});
       });
     });
   });
