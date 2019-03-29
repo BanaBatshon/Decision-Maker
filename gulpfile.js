@@ -22,7 +22,7 @@ function css() {
 
 // Clean assets
 function clean() {
-  return del(["./public/bin"]);
+  return del(["./public/bin/css"]);
 }
 
 // Watch for changes. Does not work in Vagrant
