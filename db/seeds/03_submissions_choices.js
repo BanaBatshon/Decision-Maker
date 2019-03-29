@@ -8,7 +8,6 @@ exports.seed = function(knex, Promise) {
     ])
   })
   .then(function(rows) {
-    console.log(rows);
     const [submission_id, choice_id] = rows;
 
     const submission_choices = [];
@@ -21,8 +20,8 @@ exports.seed = function(knex, Promise) {
         });
       });
     });
-
-    console.log(submission_choices);
+    
+    
 
     return knex('submission_choices').insert(submission_choices);
 
@@ -42,4 +41,12 @@ exports.seed = function(knex, Promise) {
     //   knex('submission_choices').insert({submission_id: rows[0][2].id, choice_id: rows[1][3].id, rank:3})
     // ])
   })
+  .then(function() {
+    return Promise.all(
+      knex('submission_choices').select('choice_id', 'rank').orderBy('choice_id')
+    )
+  })
+  .then( function(result) {
+    console.log(result);
+})
 }
