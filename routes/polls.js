@@ -48,8 +48,6 @@ module.exports = (knex) => {
             };
           
             transporter.sendMail(mailOptions, (err, info) => {
-              console.log(info);
-              console.log(err);
               res.send();
             })
           });
