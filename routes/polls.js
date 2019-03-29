@@ -47,8 +47,20 @@ module.exports = (knex) => {
   });
 
   router.post('/:id/', (req, res) => {
+    let name = req.body.name;
     let ranked_choices = req.body.choiceArr;
-    
+    let poll_id = req.body.poll_id;
+    knex('submissions').insert({'poll_id': poll_id, 'timestamp': new Date(), 'name': name})
+      .returning('id')
+      .then( function (id) {
+        for(let choice of ranked_choices) {
+          choice['submission_id'] = id[0];
+        }
+        knex('submission_choices').insert(ranked_choices)
+          .then( function (result) {
+            res.send();
+          });
+       })
   });
 
   return router;

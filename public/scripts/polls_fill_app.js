@@ -20,15 +20,16 @@ $(() => {
         e.preventDefault();
         let choiceArr = [];
         let rank = $ul.children().length;
+        let poll_id;
         $ul.children().each(function() {
             let choiceObj = {};
-            choiceObj['id'] = $(this).attr('id');
-            choiceObj['poll_id'] = $(this).attr('poll_id');
+            poll_id = $(this).attr('poll_id');
+            choiceObj['choice_id'] = $(this).attr('id');
             choiceObj['rank'] = rank;
             choiceArr.push(choiceObj);
             rank--;
         });
-        $.post('/polls/' + search, {'choiceArr': choiceArr})
+        $.post('/polls/' + search, {'name': $('input').val(),'poll_id': poll_id,'choiceArr': choiceArr})
         .done(function(res){
 
         });
