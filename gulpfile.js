@@ -22,7 +22,7 @@ function css() {
 
 // Clean assets
 function clean() {
-  return del(["./public/bin/css"]);
+  return del(["./public/bin"]);
 }
 
 // Watch for changes. Does not work in Vagrant
@@ -34,7 +34,7 @@ function watch() {
   });
 }
 
-// Move the javascript files into our /public/vendor folder
+// Move the vendor js files into /public/bin/js folder
 function js() {
   return gulp.src(['node_modules/bootstrap/dist/js/bootstrap.min.js', 'node_modules/jquery/dist/jquery.min.js', 'node_modules/popper.js/dist/umd/popper.min.js'])
       .pipe(gulp.dest("./public/bin/js"))
@@ -43,12 +43,12 @@ function js() {
 
 // Minify Js
 function es(){
-  return gulp.src('./public/assets/js/app.js')
+  return gulp.src('./public/assets/js/*.js')
     .pipe(terser())
     .pipe(gulp.dest('./public/bin/js'))
 }
 
-const build = gulp.series(clean, gulp.parallel(css, es));
+const build = gulp.series(clean, gulp.parallel(css, js, es));
 
 exports.css = css;
 exports.js = js;
