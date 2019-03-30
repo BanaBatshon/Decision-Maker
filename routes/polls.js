@@ -52,7 +52,7 @@ module.exports = (knex) => {
             let html = `<div><ul><li>Share link: http://localhost:8080/fill_poll.html?key=${submission_url_id}</li>
             <li>Admin link: http://localhost:8080/admin.html?key=${admin_url_id}</li></ul></div>`;
             let mailOptions = {
-              from: '"Decision Maker App" <dcode416@gmail.com>', // sender address
+              from: `"Decision Maker App" <${email.email}>`, // sender address
               to: data[0], // list of receivers
               subject: "Thanks for creating a poll", // Subject line
               html: html // html body
@@ -140,7 +140,7 @@ module.exports = (knex) => {
                 let html = `<div><p>${name} has completed your poll!</p><br>
               <p>Heres the link to your results/admin page: http://localhost:8080/admin.html?adminkey=${links[0].admin_url_id}&key=${links[0].submission_url_id}</p></div>`;
                 let mailOptions = {
-                  from: '"Decision Maker App" <dcode416@gmail.com>', // sender address
+                  from: `"Decision Maker App" <${email.email}>`, // sender address
                   to: links[0].creator_email, // list of receivers
                   subject: `${name} submitted your poll!`, // Subject line
                   html: html // html body
