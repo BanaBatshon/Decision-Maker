@@ -87,11 +87,18 @@ module.exports = (knex) => {
           .select('submissions.id')
           .where('polls.admin_url_id', '=', admin_id)
           .then((id) => {
+            // no submissions, return just the poll details
+            if (id.length === 0) {
+              res.send({'poll_results': submission[0]});
+              return;
+            }
+
+            // code below will run only if there are 1 or more submissions
             knex('submission_choices').join('choices', { 'submission_choices.choice_id': 'choices.id' })
               .select('choice_id', 'rank', 'title')
               .where('submission_choices.submission_id', '=', id[0].id)
               .orderBy('title')
-              .then(function (result) {
+              .then(function (result, error) {
                 const ranks = {};
                 let size = 0;
                 for (let row of result) {
