@@ -47,7 +47,6 @@ function showTable(key) {
   $table.append($row)
   $.ajax({
     url: `/polls/${key}/admin/`, method: 'GET', success: function (resultsObj) {
-      console.log(resultsObj)
       for (let choice in resultsObj.poll_results) {
         $row = $("<tr></tr>")
         $cellMovie = $("<td></td>")
