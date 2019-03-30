@@ -14,8 +14,8 @@ function renderPollDetails(key) {
       $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${results.poll.title}</td></tr>`);
       $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Creator Email:</td><td>${results.poll.creator_email}</td></tr>`);
       $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Created At:</td><td>${results.poll.timestamp}</td></tr>`);
-      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Admin URL:</td><td>${results.poll.admin_url_id}</td></tr>`);
-      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Submission URL:</td><td>${results.poll.submission_url_id}</td></tr>`);
+      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Admin URL:</td><td><a href="/admin.html?key=${results.poll.admin_url_id}">${results.poll.admin_url_id}</a></td></tr>`);
+      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Submission URL:</td><td><a href="/fill_poll.html?key=${results.poll.submission_url_id}">${results.poll.submission_url_id}</a></td></tr>`);
 
     },
     error: function (err) {
