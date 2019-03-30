@@ -3,7 +3,7 @@ $(() => {
 });
 
 function displayResults (){
-  $.ajax({url: '/polls',method: 'GET',success: function(resultsObj){
+  $.ajax({url: '/polls/8Uy9Ol/admin/pUlNf4',method: 'GET',success: function(resultsObj){
     let resultArr = [];
     for(let choice in resultsObj) {
       resultArr.push({y:Math.round( resultsObj[choice] * 10 ) / 10, label:choice});
@@ -43,7 +43,7 @@ function showTable () {
   $row.append($headingOption)
   $row.append($headingRank)
   $table.append($row)
-  $.ajax({url: '/polls',method: 'GET',success: function(resultsObj){
+  $.ajax({url: '/polls/8Uy9Ol/admin/pUlNf4',method: 'GET',success: function(resultsObj){
     for (let choice in resultsObj) {
       $row = $("<tr></tr>")
       $cellMovie = $("<td></td>") 

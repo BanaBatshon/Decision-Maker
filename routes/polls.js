@@ -42,15 +42,6 @@ module.exports = (knex) => {
        })
   });
 
-  // post request for form
-  router.post("/:id", (req,res) => {
-  //   knex('polls')
-  //   .insert({ creator_email: req.body.email, timestamp: new Date(), submission_url_id: generateRandomString(), admin_url_id: generateRandomString() })
-  //   knex('choices')
-  //   .insert({ title: req.body.title, description: req.body.description})
-  // // res.redirect...admin 
-  })
-
   router.get('/:id/admin/:id', (req,res) => {
     knex('submission_choices').join('choices', {'submission_choices.choice_id': 'choices.id'})
     .select('choice_id', 'rank', 'title')
@@ -74,11 +65,6 @@ module.exports = (knex) => {
       }
       res.send(percentageRanks);
     })
-  })
-
-  // lets the user update the poll
-  router.get('/:id', (req,res) => {
-
   })
 
   return router;
