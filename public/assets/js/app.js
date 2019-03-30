@@ -1,9 +1,10 @@
 $(() => {
-  displayResults();
+  let search = location.search.substring(1).slice(4);
+  displayResults(search);
 });
 
-function displayResults (){
-  $.ajax({url: '/polls/8Uy9Ol/admin/pUlNf4',method: 'GET',success: function(resultsObj){
+function displayResults (key){
+  $.ajax({url: `/polls/${key}/admin/`,method: 'GET',success: function(resultsObj){
     let resultArr = [];
     for(let choice in resultsObj) {
       resultArr.push({y:Math.round( resultsObj[choice] * 10 ) / 10, label:choice});
@@ -24,7 +25,7 @@ function displayResults (){
       ]
     });
     chart.render();
-    showTable();
+    showTable(key);
     
     },
     error: function(err){
@@ -33,7 +34,7 @@ function displayResults (){
   });
 }
 
-function showTable () {
+function showTable (key) {
   let $table = $("#resultsTable")
   let $headingOption = $("<th></th>")
   let $headingRank = $("<th></th>")
@@ -43,7 +44,8 @@ function showTable () {
   $row.append($headingOption)
   $row.append($headingRank)
   $table.append($row)
-  $.ajax({url: '/polls/8Uy9Ol/admin/pUlNf4',method: 'GET',success: function(resultsObj){
+  $.ajax({url: `/polls/${key}/admin/`,method: 'GET',success: function(resultsObj){
+    console.log(resultsObj)
     for (let choice in resultsObj) {
       $row = $("<tr></tr>")
       $cellMovie = $("<td></td>") 

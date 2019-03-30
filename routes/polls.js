@@ -76,29 +76,36 @@ module.exports = (knex) => {
     });
   });
 
-  router.get('/:id/admin/:id', (req,res) => {
-    knex('submission_choices').join('choices', {'submission_choices.choice_id': 'choices.id'})
-    .select('choice_id', 'rank', 'title')
-    .orderBy('title')
-    .then(function(result) {
-      const ranks = {};
-      let size = 0;
-      for (let row of result) {
-        if (ranks[row.title] === undefined) {
-          size ++;
-          ranks[row.title] = [row.rank];
-        } else {
-          ranks[row.title].push(row.rank)
+  router.get('/:id/admin', (req,res) => {
+    let submission_id = req.params.id;
+    knex('submissions').join('polls', {'polls.id': 'submissions.poll_id'})
+    .select('submissions.id')
+    .where('polls.submission_url_id', '=', submission_id)
+    .then((id) => {
+      knex('submission_choices').join('choices', {'submission_choices.choice_id': 'choices.id'})
+      .select('choice_id', 'rank', 'title')
+      .where('submission_choices.submission_id', '=', id[0].id)
+      .orderBy('title')
+      .then(function(result) {
+        const ranks = {};
+        let size = 0;
+        for (let row of result) {
+          if (ranks[row.title] === undefined) {
+            size ++;
+            ranks[row.title] = [row.rank];
+          } else {
+            ranks[row.title].push(row.rank)
+          }
         }
-      }
-      //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
-      const percentageRanks = {};
-      for (let choice in ranks) {
-        let value = ranks[choice];
-          percentageRanks[choice] = bordaCount(value, size);
-      }
-      res.send(percentageRanks);
-    })
+        //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
+        const percentageRanks = {};
+        for (let choice in ranks) {
+          let value = ranks[choice];
+            percentageRanks[choice] = bordaCount(value, size);
+        }
+        res.send(percentageRanks);
+      })
+    });
   })
 
   router.post('/:id/', (req, res) => {
