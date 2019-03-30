@@ -6,8 +6,8 @@ $(() => {
 function displayResults (key){
   $.ajax({url: `/polls/${key}/admin/`,method: 'GET',success: function(resultsObj){
     let resultArr = [];
-    for(let choice in resultsObj) {
-      resultArr.push({y:Math.round( resultsObj[choice] * 10 ) / 10, label:choice});
+    for(let choice in resultsObj.poll_results) {
+      resultArr.push({y:Math.round( resultsObj.poll_results[choice] * 10 ) / 10, label:choice});
     }
     var chart = new CanvasJS.Chart("chartContainer",
     {
@@ -46,12 +46,12 @@ function showTable (key) {
   $table.append($row)
   $.ajax({url: `/polls/${key}/admin/`,method: 'GET',success: function(resultsObj){
     console.log(resultsObj)
-    for (let choice in resultsObj) {
+    for (let choice in resultsObj.poll_results) {
       $row = $("<tr></tr>")
       $cellMovie = $("<td></td>") 
       $cellRank = $("<td></td>") 
       $cellMovie.append(choice)
-      $cellRank.append(Math.round( resultsObj[choice] * 10 ) / 10)
+      $cellRank.append(Math.round( resultsObj.poll_results[choice] * 10 ) / 10)
       $row.append($cellMovie)
       $row.append($cellRank)
       $table.append($row)
