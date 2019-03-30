@@ -2,7 +2,14 @@ $(() => {
   let search = location.search.substring(1).slice(4);
   let $ul = $('#respond-to-poll-options');
   function createInput(choice, index) {
-    let $li = $(`<li class="list-group-item"><div class="sortable-number">${index + 1}</div><span class="choice-title">${choice.title}</span> <span class="choice-desc">(${choice.description})</span></li>`);
+    let $li;
+    if(choice.description.length === 0) {
+      $li = $(`<li class="list-group-item"><div class="sortable-number">${index + 1}</div><span class="choice-title">${choice.title}</span> <span class="choice-desc"></span></li>`);
+    }
+    else {
+      $li = $(`<li class="list-group-item"><div class="sortable-number">${index + 1}</div><span class="choice-title">${choice.title}</span> <span class="choice-desc">(${choice.description})</span></li>`);
+    }
+    
     $li.attr('id', choice.id);
     $li.attr('poll_id', choice.poll_id);
     return $li;

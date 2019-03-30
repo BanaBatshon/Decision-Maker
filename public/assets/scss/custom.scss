@@ -9,6 +9,7 @@ $font-family-sans-serif: 'Lato', sans-serif;
 $font-family-base: $font-family-sans-serif;
 $white: #FFF;
 $terra-cotta-orange: #E26D5C;
+$navajo-white: #FFE1A8;
 
 $jumbotron-padding: 0;
 $button-color: #89817D;
@@ -193,5 +194,5 @@ $headings-color: #F4F4EB;
   @include button-variant($button-color, darken($button-color, 7.5%), darken($button-color, 10%), lighten($button-color,5%), lighten($button-color, 10%), darken($button-color,30%));
 }
 .btn-primary {
-  @include button-variant($terra-cotta-orange, darken($terra-cotta-orange, 7.5%), darken($terra-cotta-orange, 10%), lighten($terra-cotta-orange,5%), lighten($terra-cotta-orange, 10%), darken($terra-cotta-orange,30%));
+  @include button-variant($navajo-white, darken($navajo-white, 7.5%), darken($navajo-white, 10%), lighten($navajo-white,5%), lighten($navajo-white, 10%), darken($navajo-white,30%));
 }
