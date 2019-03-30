@@ -4,16 +4,23 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
 // Override Variables
-$body-bg: #1A1B1D;
-$font-family-sans-serif: 'Lato', sans-serif;
-$font-family-base: $font-family-sans-serif;
+
+// colors
+$rose-dust-red: #9D5C65;
+$dark-blue: #1A1B1D;
 $white: #FFF;
 $terra-cotta-orange: #E26D5C;
 $navajo-white: #FFE1A8;
 
+// fonts
+$font-family-sans-serif: 'Lato', sans-serif;
+$font-family-base: $font-family-sans-serif;
+
+// elements
+$body-bg: $rose-dust-red;
 $jumbotron-padding: 0;
 $button-color: #89817D;
-$headings-color: #F4F4EB;  
+$headings-color: $white;  
 
 //Bootstrap sass Files
 @import "node_modules/bootstrap/scss/bootstrap";
@@ -29,7 +36,7 @@ $headings-color: #F4F4EB;
 
 .navbar {
   width: 100%;
-  background: none !important;
+  background-color: $dark-blue !important;
 
   @media(max-width:34em) {
     background: black !important;
@@ -37,7 +44,7 @@ $headings-color: #F4F4EB;
   .navbar-brand {
     text-transform: uppercase;
     font-weight: 900;
-    color: #fff;
+    color: $white;
     font-size: 2.5em;
   }
 
@@ -57,7 +64,7 @@ $headings-color: #F4F4EB;
     .nav-link {
       @media(max-width: 34em) {
         font-weight: normal;
-        color: #fff !important;
+        color: $white !important;
       }
     }
   }
@@ -171,7 +178,7 @@ $headings-color: #F4F4EB;
 
 .list-group-item {
   padding: 1.5rem 0;
-  background: #9D5C65;
+  background: $white;
   border: 0;
   margin-bottom: 1.3rem;
 }
