@@ -1,27 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home Page</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Decision Maker App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="screen" href="bin/css/custom.css">
-  </head>
+  <link rel="stylesheet" type="text/css" media="screen" href="bin/css/custom.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="./index.html"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50"
+        height="50" viewBox="0 0 192 192" style=" fill:#000000;">
+        <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"
+          stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
+          font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+          <path d="M0,192v-192h192v192z" fill="none"></path>
+          <g fill="#ffffff">
+            <g id="surface1">
+              <path
+                d="M93.6,21.6c-16.18125,0 -29.48437,4.99687 -38.6625,14.20313c-9.1875,9.20625 -14.1375,22.50937 -14.1375,38.59687c0,7.95 2.67187,19.32187 4.875,27.75c-2.70937,1.34063 -4.875,3.61875 -4.875,6.81563c0,1.84687 0.59063,3.62813 1.09687,5.3625c0.25313,0.8625 0.50625,1.67813 0.675,2.30625c0.16875,0.6375 0.225,1.22813 0.225,0.96563c0,4.00313 3.39375,7.2 7.40625,7.2h0.19687v0.12187c0,22.24688 15.99375,40.74375 37.09687,44.72813c2.34375,1.88437 5.25,3.15 8.50313,3.15c3.25313,0 6.15937,-1.26563 8.50313,-3.15c21.10313,-3.98437 37.09687,-22.48125 37.09687,-44.72813v-0.12187h0.19687c4.00313,0 7.40625,-3.19687 7.40625,-7.2c0,0.2625 0.05625,-0.32813 0.225,-0.96563c0.16875,-0.62812 0.42187,-1.44375 0.675,-2.30625c0.50625,-1.73437 1.09687,-3.51563 1.09687,-5.3625c0,-3.15937 -2.11875,-5.45625 -4.79063,-6.80625c2.1,-9.83437 4.79063,-23.46562 4.79063,-31.30312c0,-23.625 -15.13125,-33.76875 -27.29063,-34.54688c-0.675,-1.22812 -2.29687,-3.89062 -6.09375,-6.975c-4.81875,-3.9 -12.62813,-7.73437 -24.21563,-7.73437zM93.6,26.4c10.54687,0 17.1375,3.36563 21.1875,6.66563c4.05,3.29063 5.4375,6.34687 5.4375,6.34687l0.6375,1.3875h1.5375c9.77813,0 24,7.55625 24,30.05625c0,7.00312 -2.8875,22.13437 -4.99687,31.93125l-0.54375,2.48437l2.52188,0.39375c1.7625,0.27187 3.01875,1.64063 3.01875,3.29063v0.00937c0,0.46875 -0.4125,2.33437 -0.9,4.0125c-0.25313,0.83437 -0.50625,1.65937 -0.7125,2.40937c-0.19687,0.74063 -0.38437,1.28437 -0.38437,2.2125c0,1.30313 -1.0875,2.4 -2.60625,2.4h-4.99687v4.92187c0,20.1 -14.50313,36.72188 -33.6,40.125l-0.675,0.13125l-0.51563,0.45937c-1.6125,1.47187 -3.69375,2.3625 -6.00937,2.3625c-2.31563,0 -4.39687,-0.89063 -6.00937,-2.3625l-0.51563,-0.45937l-0.675,-0.13125c-19.09687,-3.40312 -33.6,-20.025 -33.6,-40.125v-4.92187h-4.99687c-1.51875,0 -2.60625,-1.09687 -2.60625,-2.4c0,-0.92813 -0.1875,-1.47187 -0.39375,-2.2125c-0.20625,-0.75 -0.45,-1.575 -0.70313,-2.40937c-0.4875,-1.67813 -0.9,-3.54375 -0.9,-4.0125c0,-1.67813 1.29375,-3.075 3.1125,-3.30937l2.71875,-0.34688l-0.70313,-2.64375c-2.23125,-8.38125 -5.12813,-21.02813 -5.12813,-28.26563c0,-15.1125 4.56563,-27.00937 12.73125,-35.20313c8.16562,-8.19375 20.0625,-12.79687 35.26875,-12.79687zM115.575,55.1625l-0.74063,0.4125l-0.1875,0.15937l-0.84375,1.97813l1.06875,1.86563l2.12813,0.25313l0.74063,-0.42188l0.1875,-0.15l0.84375,-1.97812l-1.06875,-1.85625zM107.91563,59.5875l-0.84375,0.08437l-0.23437,0.06563l-1.575,1.4625l0.225,2.14687l1.84687,1.09688l0.85313,-0.09375l0.225,-0.06563l1.575,-1.4625l-0.225,-2.1375zM97.90313,61.47187l-0.24375,0.01875l-1.8375,1.125l-0.19687,2.1375l1.59375,1.44375l0.84375,0.075l0.23437,-0.00937l1.8375,-1.125l0.20625,-2.1375l-1.59375,-1.45313zM88.05,61.80937l-1.92187,0.95625l-0.40313,2.10937l1.4625,1.58437l0.825,0.15l0.24375,0.00938l1.93125,-0.95625l0.39375,-2.10937l-1.45313,-1.575l-0.83437,-0.15937zM78.1875,62.25l-0.23437,0.02813l-1.80937,1.1625l-0.14063,2.14687l1.62187,1.39687l0.84375,0.06563l0.24375,-0.0375l1.8,-1.1625l0.15,-2.1375l-1.62187,-1.40625zM68.72813,64.3875l-0.825,0.19687l-0.21563,0.10313l-1.37813,1.65l0.51563,2.09063l1.97813,0.84375l0.825,-0.19687l0.21563,-0.10313l1.36875,-1.65937l-0.50625,-2.09063zM61.725,70.07813l-2.1375,0.24375l-0.60937,0.58125l-0.14063,0.19687l-0.375,2.10937l1.4625,1.56563l2.1375,-0.23437l0.61875,-0.58125l0.14062,-0.19687l0.375,-2.10937zM57.34687,79.2l-1.62187,1.39687l-0.1875,0.825l-0.00937,0.24375l0.87187,1.95937l2.1,0.46875l1.64063,-1.40625l0.17813,-0.825l0.00937,-0.23437l-0.88125,-1.95937zM97.3875,84c-10.02187,0 -15.51563,5.80313 -15.7875,13.8h7.92187c0.27188,-4.125 3.075,-6.75 7.425,-6.75c4.25625,0 7.0875,2.52187 7.0875,6.0375c0,3.3375 -1.41562,5.11875 -5.59687,7.65c-4.65937,2.7375 -6.61875,5.775 -6.30937,10.8375l0.0375,2.025h7.81875v-1.65c0,-3.34687 1.24688,-5.0625 5.6625,-7.65937c4.59375,-2.7375 7.15313,-6.34687 7.15313,-11.50313c0,-7.4625 -6.17813,-12.7875 -15.4125,-12.7875zM96,124.8c-2.8875,0 -4.8,1.89375 -4.8,4.80937c0,2.89688 1.9125,4.79063 4.8,4.79063c2.95313,0 4.8,-1.89375 4.8,-4.79063c0,-2.91562 -1.84687,-4.80937 -4.8,-4.80937z">
+              </path>
+            </g>
+          </g>
+        </g>
+      </svg>Decision Maker</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./polls.html">Create Poll</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">How It Works</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
+        </ul>
+      </div>
+  </nav>
 
   <body>
-    <h2>Here are your links to share and view the results:</h2>
-    <li> 
-      <a href="#">view the results here</a>
-      <a href="#">Share the results here</a>
-    </li>
-    <h2>Results</h2>    
-    <table id='resultsTable'></table>
-    <main id='chartContainer' class='clearfix'></main>
+    <div class="container">
+      <div class="section-container col-md-12 p-0">
+        <h2>Here are your links to share and view the results:</h2>
+        <li>
+          <a href="#">view the results here</a>
+          <a href="#">Share the results here</a>
+        </li>
+        <h2>Results</h2>
+        <table id='resultsTable'></table>
+        <main id='chartContainer' class='clearfix'></main>
+      </div>
+    </div>
+    <footer class="page-footer font-small blue">
+      <div class="footer-copyright text-center py-3">© 2019 Copyright</div>
+    </footer>
 
     <script src="bin/js/jquery.min.js"></script>
     <script src="bin/js/popper.min.js"></script>
     <script src="bin/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="bin/js/app.js"></script>
-
   </body>
 </html>
