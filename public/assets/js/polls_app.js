@@ -36,7 +36,7 @@ $(() => {
       $.post('/polls/new', {data: user_input})
       .done(function(data){
         let links = data;
-        $(location).attr('href', `/admin.html?key=${links[1]}`);
+        $(location).attr('href', `/admin.html?key=${links[0]}`);
       });
     }
   });
