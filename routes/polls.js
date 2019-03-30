@@ -89,7 +89,7 @@ module.exports = (knex) => {
           .then((id) => {
             // no submissions, return just the poll details
             if (id.length === 0) {
-              res.send({'poll_results': submission[0]});
+              res.send({'poll': submission[0]});
               return;
             }
 
