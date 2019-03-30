@@ -1,7 +1,8 @@
 $(() => {
   let search = location.search.substring(1).slice(4);
-  // displayResults(search);
+  displayResults(search);
   renderPollDetails(search);
+  showTable(search);
 });
 
 function renderPollDetails(key) {
@@ -9,8 +10,6 @@ function renderPollDetails(key) {
     url: `/polls/${key}/admin/`,
     method: 'GET',
     success: function (results) {
-      console.log(results);
-      // $('#table-poll-details tr:last').after('<tr>test</tr><tr>test2</tr>');
       $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${results.poll.title}</td></tr>`);
       $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Creator Email:</td><td>${results.poll.creator_email}</td></tr>`);
       $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Created At:</td><td>${results.poll.timestamp}</td></tr>`);
@@ -28,9 +27,9 @@ function displayResults(key) {
   $.ajax({
     url: `/polls/${key}/admin/`, method: 'GET', success: function (resultsObj) {
       let resultArr = [];
-      for (let choice in resultsObj.poll_results) {
-        resultArr.push({ y: Math.round(resultsObj.poll_results[choice] * 10) / 10, label: choice });
-      }
+      resultsObj.chart_data.forEach(function(choice, index) {
+        resultArr.push({ y: Math.round(choice['percentage'] * 10) / 10, label: choice['title']});
+      })
       var chart = new CanvasJS.Chart("chartContainer",
         {
           legend: {
@@ -68,12 +67,12 @@ function showTable(key) {
   $table.append($row)
   $.ajax({
     url: `/polls/${key}/admin/`, method: 'GET', success: function (resultsObj) {
-      for (let choice in resultsObj.poll_results) {
+      for (let choice in resultsObj.chart_data) {
         $row = $("<tr></tr>")
         $cellMovie = $("<td></td>")
         $cellRank = $("<td></td>")
         $cellMovie.append(choice)
-        $cellRank.append(Math.round(resultsObj.poll_results[choice] * 10) / 10)
+        $cellRank.append(Math.round(resultsObj.chart_data[choice] * 10) / 10)
         $row.append($cellMovie)
         $row.append($cellRank)
         $table.append($row)

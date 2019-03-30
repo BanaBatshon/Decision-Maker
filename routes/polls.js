@@ -23,9 +23,18 @@ function bordaCount(rankingArr, numChoices) {
   const percentagePerPoint = (numChoices * (numChoices + 1)) / 2
   const points = [];
   for (let rank of rankingArr) {
-    points.push(((numChoices + 1) - rank) * percentagePerPoint)
+    points.push(((numChoices + 1) - rank) * percentagePerPoint);
   }
   return points.reduce((a, b) => a + b, 0) / points.length //finds final percentage
+}
+
+
+function sumRanks(rankingArr) {
+  let finalRank = 0;
+  for (let rank of rankingArr) {
+    finalRank += rank;
+  }
+  return finalRank;
 }
 
 module.exports = (knex) => {
@@ -80,46 +89,45 @@ module.exports = (knex) => {
 
   router.get('/:id/admin', (req, res) => {
     let admin_id = req.params.id;
-    knex.select('*').from('polls')
-      .where('admin_url_id', '=', admin_id)
-      .then(function (submission) {
-        knex('submissions').join('polls', { 'polls.id': 'submissions.poll_id' })
-          .select('submissions.id')
-          .where('polls.admin_url_id', '=', admin_id)
-          .then((id) => {
-            // no submissions, return just the poll details
-            if (id.length === 0) {
-              res.send({'poll': submission[0]});
-              return;
+    knex('polls').join('submissions', { 'polls.id': 'submissions.poll_id' })
+      .select('*')
+      .where('polls.admin_url_id', '=', admin_id)
+      .then((results) => {
+        // no submissions, return just the poll details
+        if (id.length === 0) {
+          res.send({ 'poll': results[0] });
+          return;
+        }
+
+        // code below will run only if there are 1 or more submissions
+        knex('submission_choices').join('choices', { 'submission_choices.choice_id': 'choices.id' })
+          .select('choice_id', 'rank', 'title')
+          .where('choices.poll_id', '=', results[0].poll_id)
+          .orderBy('choice_id')
+          .then(function (result, error) {
+            const ranks = {};
+            let size = 0;
+
+            for (let row of result) {
+              if (ranks[row.choice_id] === undefined) {
+                size++;
+                ranks[row.choice_id] = {'title': row.title, 'rank':[row.rank]};
+              } else {
+                ranks[row.choice_id]["rank"].push(row.rank)
+              }
             }
 
-            // code below will run only if there are 1 or more submissions
-            knex('submission_choices').join('choices', { 'submission_choices.choice_id': 'choices.id' })
-              .select('choice_id', 'rank', 'title')
-              .where('submission_choices.submission_id', '=', id[0].id)
-              .orderBy('title')
-              .then(function (result, error) {
-                const ranks = {};
-                let size = 0;
-                for (let row of result) {
-                  if (ranks[row.title] === undefined) {
-                    size++;
-                    ranks[row.title] = [row.rank];
-                  } else {
-                    ranks[row.title].push(row.rank)
-                  }
-                }
-                //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
-                const percentageRanks = {};
-                for (let choice in ranks) {
-                  let value = ranks[choice];
-                  percentageRanks[choice] = bordaCount(value, size);
-                }
-                res.send({ 'poll_results': percentageRanks, 'poll': submission[0] });
-              })
-          });
-      })
-
+            //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
+            const percentageRanks = [];
+            const sumOfRanks = [];
+            for (let choice in ranks) {
+              let rankingArr = ranks[choice]['rank'];
+              percentageRanks.push({'title':ranks[choice]['title'], 'percentage': bordaCount(rankingArr, size)});
+              sumOfRanks.push({'title': ranks[choice]['title'], 'sum': sumRanks(rankingArr)});
+            }
+            res.send({ 'chart_data': percentageRanks, 'poll': results[0], 'sum': sumOfRanks });
+          })
+      });
   })
 
   router.post('/:id/', (req, res) => {
