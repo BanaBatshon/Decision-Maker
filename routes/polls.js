@@ -57,7 +57,7 @@ module.exports = (knex) => {
             };
           
             transporter.sendMail(mailOptions, (err, info) => {
-              res.send();
+              res.send([admin_url_id, submission_url_id]);
             })
           });
        })

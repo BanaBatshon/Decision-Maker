@@ -36,9 +36,9 @@ $(() => {
       $.post('/polls/new', {data: user_input})
       .done(function(data){
         let links = data;
-        let $container = $('.container');
-        $container.empty();
-        $container.append($(`<div><p>User link: ${links[0]}</p><p>Admin link ${links[1]}</p></div>`));
+        console.log(links)
+        //$container.append($(`<div><p>User link: ${links[0]}</p><p>Admin link ${links[1]}</p></div>`));
+        $(location).attr('href', `/admin.html?key=${links[1]}`);
       });
     }
   });
