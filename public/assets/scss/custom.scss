@@ -196,6 +196,15 @@ $headings-color: $white;
   font-style: italic;
 }
 
+#table-poll-details {
+  color: $white;
+  font-size: 1.2em;
+
+  .poll-details-heading {
+    font-weight: 700;
+  }
+}
+
 /* use @mixins */
 .btn-custom {
   @include button-variant($button-color, darken($button-color, 7.5%), darken($button-color, 10%), lighten($button-color,5%), lighten($button-color, 10%), darken($button-color,30%));

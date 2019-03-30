@@ -1,7 +1,28 @@
 $(() => {
   let search = location.search.substring(1).slice(4);
-  displayResults(search);
+  // displayResults(search);
+  renderPollDetails(search);
 });
+
+function renderPollDetails(key) {
+  $.ajax({
+    url: `/polls/${key}/admin/`,
+    method: 'GET',
+    success: function (results) {
+      console.log(results);
+      // $('#table-poll-details tr:last').after('<tr>test</tr><tr>test2</tr>');
+      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${results.poll.title}</td></tr>`);
+      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Creator Email:</td><td>${results.poll.creator_email}</td></tr>`);
+      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Created At:</td><td>${results.poll.timestamp}</td></tr>`);
+      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Admin URL:</td><td>${results.poll.admin_url_id}</td></tr>`);
+      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Submission URL:</td><td>${results.poll.submission_url_id}</td></tr>`);
+
+    },
+    error: function (err) {
+      console.log(err);
+    }
+  });
+}
 
 function displayResults(key) {
   $.ajax({
