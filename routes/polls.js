@@ -48,7 +48,7 @@ module.exports = (knex) => {
         knex('choices').insert(choices_data)
           .then((result) => {
             let html = `<div><ul><li>Share link: http://localhost:8080/fill_poll.html?key=${submission_url_id}</li>
-            <li>Admin link: http://localhost:8080/admin.html?adminkey=${admin_url_id}&key=${submission_url_id}</li></ul></div>`;
+            <li>Admin link: http://localhost:8080/admin.html?key=${admin_url_id}</li></ul></div>`;
             let mailOptions = {
               from: '"Decision Maker App" <dcode416@gmail.com>', // sender address
               to: data[0], // list of receivers
@@ -77,10 +77,10 @@ module.exports = (knex) => {
   });
 
   router.get('/:id/admin', (req,res) => {
-    let submission_id = req.params.id;
+    let admin_id = req.params.id;
     knex('submissions').join('polls', {'polls.id': 'submissions.poll_id'})
     .select('submissions.id')
-    .where('polls.submission_url_id', '=', submission_id)
+    .where('polls.admin_url_id', '=', admin_id)
     .then((id) => {
       knex('submission_choices').join('choices', {'submission_choices.choice_id': 'choices.id'})
       .select('choice_id', 'rank', 'title')
