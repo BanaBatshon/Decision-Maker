@@ -1,22 +1,27 @@
 $(() => {
   let search = location.search.substring(1).slice(4);
-  getPollDetails(search);
+  getPollDataAndRender(search);
 });
 
 /**
  * Get poll data from server
  * @param {string} key 
  */
-function getPollDetails(key) {
+function getPollDataAndRender(key) {
   $.ajax({
     url: `/polls/${key}/admin/`,
     method: 'GET',
     success: function (results) {
+      console.log(results);
       renderPollDetails(results.poll_details);
 
       // Render only if poll has 1 or more submissions
       if (results.table_data !== undefined) {
         renderPollResults(results.table_data);
+      }
+
+      if (results.chart_data !== undefined) {
+        renderChart(results.chart_data);
       }
     },
     error: function (err) {
@@ -72,36 +77,33 @@ function renderPollResults(choices) {
   })
 }
 
-function displayResults(key) {
-  $.ajax({
-    url: `/polls/${key}/admin/`, method: 'GET', success: function (resultsObj) {
-      let resultArr = [];
-      resultsObj.chart_data.forEach(function (choice, index) {
-        resultArr.push({ y: Math.round(choice['percentage'] * 10) / 10, label: choice['title'] });
-      })
-      var chart = new CanvasJS.Chart("chartContainer",
-        {
-          legend: {
-            maxWidth: 350,
-            itemWidth: 120
-          },
-          data: [
-            {
-              type: "pie",
-              showInLegend: true,
-              legendText: "{indexLabel}",
-              dataPoints: resultArr
-            }
-          ]
-        });
-      chart.render();
-      showTable(key);
-
-    },
-    error: function (err) {
-      console.log("there was an error getting the results");
-    }
+/**
+ * Renders pie chart
+ * @param {object} choices 
+ */
+function renderChart(choices) {
+  let chartData = [];
+  choices.forEach(function (choice, index) {
+    chartData.push({ y: Math.round(choice['percentage'] * 10) / 10, label: choice['title'] });
   });
+
+  var chart = new CanvasJS.Chart("chartContainer", {
+    theme: "dark2", // "light1", "light2", "dark1", "dark2"
+    exportEnabled: false,
+    animationEnabled: true,
+    backgroundColor: '#000',
+    data: [{
+      type: "pie",
+      startAngle: 25,
+      toolTipContent: "<b>{label}</b>: {y}%",
+      showInLegend: "true",
+      legendText: "{label}",
+      indexLabelFontSize: 16,
+      indexLabel: "{label} - {y}%",
+      dataPoints: chartData
+    }]
+  });
+  chart.render();
 }
 
 function showTable(key) {
