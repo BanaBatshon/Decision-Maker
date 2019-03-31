@@ -180,7 +180,7 @@ module.exports = (knex) => {
               .where('id', '=', poll_id)
               .then((links) => {
                 let html = `<div><p>${name} has completed your poll!</p><br>
-              <p>Heres the link to your results/admin page: http://localhost:8080/admin.html?adminkey=${links[0].admin_url_id}&key=${links[0].submission_url_id}</p></div>`;
+              <p>Heres the link to your results/admin page: http://localhost:8080/admin.html?key=${links[0].admin_url_id}</p></div>`;
                 let mailOptions = {
                   from: `"Decision Maker App" <${email.email}>`, // sender address
                   to: links[0].creator_email, // list of receivers
