@@ -157,8 +157,8 @@ $link-hover-color: $navajo-white;
 }
 
 .heading-form {
-  font-size: 2.7em;
-  padding: 2rem 2rem 2rem;
+  font-size: 2em;
+  padding: 2rem 2rem 1rem 2rem;
   text-align: center;
 }
 
@@ -222,8 +222,12 @@ section {
   margin-bottom: 5rem;
 }
 
-/* use @mixins */
 .btn-custom {
+  margin: 2rem;
+}
+
+/* use @mixins */
+.btn-jumbotron {
   @include button-variant($button-color, darken($button-color, 7.5%), darken($button-color, 10%), lighten($button-color,5%), lighten($button-color, 10%), darken($button-color,30%));
 }
 .btn-primary {
