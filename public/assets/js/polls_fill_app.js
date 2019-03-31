@@ -4,7 +4,7 @@ $(() => {
 });
 
 /**
- * 
+ * Get poll options from server and render onto page
  * @param {string} search 
  */
 function getPollOptionsAndRender(search) {
