@@ -27,6 +27,25 @@ $link-hover-color: $navajo-white;
 //Bootstrap sass Files
 @import "node_modules/bootstrap/scss/bootstrap";
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+section {
+  margin-bottom: 5rem;
+}
+
+.section-one-page {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
 .heading-custom {
   text-align: center;
   padding: 4rem;
@@ -157,8 +176,8 @@ $link-hover-color: $navajo-white;
 }
 
 .heading-form {
-  font-size: 2.7em;
-  padding: 2rem 2rem 2rem;
+  font-size: 2em;
+  padding: 2rem 2rem 1rem 2rem;
   text-align: center;
 }
 
@@ -218,12 +237,28 @@ $link-hover-color: $navajo-white;
   }
 }
 
-section {
-  margin-bottom: 5rem;
+.btn-custom {
+  margin: 2rem;
 }
 
+.error-message {
+  margin: 3rem;
+ 
+}
+
+.error-message > h1 {
+  font-size: 3.5em;
+}
+
+.error-message > p {
+  font-size: 1.5em;
+  color: $white;
+}
+
+
+
 /* use @mixins */
-.btn-custom {
+.btn-jumbotron {
   @include button-variant($button-color, darken($button-color, 7.5%), darken($button-color, 10%), lighten($button-color,5%), lighten($button-color, 10%), darken($button-color,30%));
 }
 .btn-primary {

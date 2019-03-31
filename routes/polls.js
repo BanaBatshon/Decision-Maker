@@ -93,6 +93,10 @@ module.exports = (knex) => {
     knex.select('id', 'title').from('polls')
       .where('submission_url_id', '=', id)
       .then(function (result) {
+        if (result.length === 0) {
+          res.status(404).send('Not Found');
+          return;
+        }
         knex.select('*').from('choices')
           .where('poll_id', '=', result[0].id)
           .then(function (choices) {
