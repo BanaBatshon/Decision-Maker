@@ -90,7 +90,7 @@ function renderChart(choices) {
     theme: "dark2",
     exportEnabled: false,
     animationEnabled: true,
-    backgroundColor: '#000',
+    backgroundColor: '#1A1B1D',
     data: [{
       type: "pie",
       startAngle: 25,
