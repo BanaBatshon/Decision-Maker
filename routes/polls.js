@@ -112,13 +112,13 @@ module.exports = (knex) => {
           .then((results) => {
             // no submissions, return just the poll details
             if (results.length === 0) {
-              res.send({'poll_details': poll[0]});
+              res.send({ 'poll_details': poll[0] });
               return;
             }
 
             // code below will run only if there are 1 or more submissions
             knex('submission_choices').join('choices', { 'submission_choices.choice_id': 'choices.id' })
-              .select('choice_id', 'rank', 'title')
+              .select('choice_id', 'rank', 'title', 'description')
               .where('choices.poll_id', '=', results[0].poll_id)
               .orderBy('choice_id')
               .then(function (result, error) {
@@ -128,7 +128,7 @@ module.exports = (knex) => {
                 for (let row of result) {
                   if (ranks[row.choice_id] === undefined) {
                     size++;
-                    ranks[row.choice_id] = { 'title': row.title, 'rank': [row.rank] };
+                    ranks[row.choice_id] = { 'title': row.title, 'description': row.description, 'rank': [row.rank] };
                   } else {
                     ranks[row.choice_id]["rank"].push(row.rank)
                   }
@@ -136,13 +136,14 @@ module.exports = (knex) => {
 
                 //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
                 const percentageRanks = [];
-                const sumOfRanks = [];
+                const pollResults = [];
+
                 for (let choice in ranks) {
                   let rankingArr = ranks[choice]['rank'];
                   percentageRanks.push({ 'title': ranks[choice]['title'], 'percentage': bordaCount(rankingArr, size) });
-                  sumOfRanks.push({ 'title': ranks[choice]['title'], 'points': sumRanks(rankingArr) });
+                  pollResults.push({ 'title': ranks[choice]['title'], 'description': ranks[choice]['description'], 'points': sumRanks(rankingArr) });
                 }
-                res.send({ 'chart_data': percentageRanks, 'poll_details': results[0], 'table_data': sumOfRanks.sort(sortPollResults) });
+                res.send({ 'chart_data': percentageRanks, 'poll_details': results[0], 'table_data': pollResults.sort(sortPollResults) });
               })
           })
       });
