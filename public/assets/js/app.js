@@ -30,7 +30,6 @@ function getPollDetails(key) {
  * @param {object} poll 
  */
 function renderPollDetails(poll) {
-  // $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${results.poll_details.title}</td></tr>`);
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${poll.title}</td></tr>`);
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Creator Email:</td><td>${poll.creator_email}</td></tr>`);
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Created At:</td><td>${poll.timestamp}</td></tr>`);
