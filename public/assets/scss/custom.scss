@@ -150,6 +150,12 @@ $link-hover-color: $navajo-white;
   text-align: center;
 }
 
+.subheading-page {
+  font-size: 2.5em;
+  padding: 2rem;
+  text-align: center;
+}
+
 .heading-form {
   font-size: 2.7em;
   padding: 2rem 2rem 2rem;
@@ -196,6 +202,11 @@ $link-hover-color: $navajo-white;
 
 .choice-desc {
   font-style: italic;
+}
+
+.table {
+  color: $white;
+  font-size: 1.2em;
 }
 
 #table-poll-details {
