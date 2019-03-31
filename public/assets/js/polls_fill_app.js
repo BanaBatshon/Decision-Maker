@@ -103,12 +103,13 @@ function renderPollSelectionForm(poll) {
       });
   });
 
+  $buttonDiv.append($button);
+
   $form.append($nameLabel);
   $form.append($nameInput);
   $form.append($h4);
   $form.append($ul);
   $form.append($buttonDiv);
-  $form.append($button);
 
   $formDiv.append($form);
   $choosePollOptionsSection.append($formDiv);
