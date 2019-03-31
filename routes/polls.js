@@ -47,6 +47,21 @@ function sumRanks(rankingArr) {
   return finalRank;
 }
 
+/**
+ * Sort poll results by total points in descending order
+ * @param {*} a 
+ * @param {*} b 
+ */
+function sortPollResults(a, b) {
+  if (a.points < b.points) {
+    return 1;
+  }
+  if (a.points > b.points) {
+    return -1;
+  }
+  return 0;
+}
+
 module.exports = (knex) => {
   router.post("/new", (req, res) => {
     let data = req.body.data;
@@ -89,6 +104,10 @@ module.exports = (knex) => {
     knex.select('id', 'title').from('polls')
       .where('submission_url_id', '=', id)
       .then(function (result) {
+        if (result.length === 0) {
+          res.status(404).send('Not Found');
+          return;
+        }
         knex.select('*').from('choices')
           .where('poll_id', '=', result[0].id)
           .then(function (choices) {
@@ -99,42 +118,48 @@ module.exports = (knex) => {
 
   router.get('/:id/admin', (req, res) => {
     let admin_id = req.params.id;
-    knex('polls').join('submissions', { 'polls.id': 'submissions.poll_id' })
-      .select('*')
-      .where('polls.admin_url_id', '=', admin_id)
-      .then((results) => {
-        // no submissions, return just the poll details
-        if (results.length === 0) {
-          res.send({ 'poll': results[0] });
-          return;
-        }
+    knex.select('*').from('polls')
+      .where('admin_url_id', '=', admin_id)
+      .then(function (poll) {
+        knex('polls').join('submissions', { 'polls.id': 'submissions.poll_id' })
+          .select('*')
+          .where('polls.admin_url_id', '=', admin_id)
+          .then((results) => {
+            // no submissions, return just the poll details
+            if (results.length === 0) {
+              res.send({ 'poll_details': poll[0] });
+              return;
+            }
 
-        // code below will run only if there are 1 or more submissions
-        knex('submission_choices').join('choices', { 'submission_choices.choice_id': 'choices.id' })
-          .select('choice_id', 'rank', 'title')
-          .where('choices.poll_id', '=', results[0].poll_id)
-          .orderBy('choice_id')
-          .then(function (result, error) {
-            const ranks = {};
-            let size = 0;
-            for (let row of result) {
-              if (ranks[row.choice_id] === undefined) {
-                size++;
-                ranks[row.choice_id] = {'title': row.title, 'rank':[row.rank]};
-              } else {
-                ranks[row.choice_id]["rank"].push(row.rank)
-              }
-            }
-            
-            //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
-            const percentageRanks = [];
-            const sumOfRanks = [];
-            for (let choice in ranks) {
-              let rankingArr = ranks[choice]['rank'];
-              percentageRanks.push({'title':ranks[choice]['title'], 'percentage': bordaCount(rankingArr, size)});
-              sumOfRanks.push({'title': ranks[choice]['title'], 'sum': sumRanks(rankingArr)});
-            }
-            res.send({ 'chart_data': percentageRanks, 'poll': results[0], 'sum': sumOfRanks });
+            // code below will run only if there are 1 or more submissions
+            knex('submission_choices').join('choices', { 'submission_choices.choice_id': 'choices.id' })
+              .select('choice_id', 'rank', 'title', 'description')
+              .where('choices.poll_id', '=', results[0].poll_id)
+              .orderBy('choice_id')
+              .then(function (result, error) {
+                const ranks = {};
+                let size = 0;
+
+                for (let row of result) {
+                  if (ranks[row.choice_id] === undefined) {
+                    size++;
+                    ranks[row.choice_id] = { 'title': row.title, 'description': row.description, 'rank': [row.rank] };
+                  } else {
+                    ranks[row.choice_id]["rank"].push(row.rank)
+                  }
+                }
+
+                //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
+                const percentageRanks = [];
+                const pollResults = [];
+
+                for (let choice in ranks) {
+                  let rankingArr = ranks[choice]['rank'];
+                  percentageRanks.push({ 'title': ranks[choice]['title'], 'percentage': bordaCount(rankingArr, size) });
+                  pollResults.push({ 'title': ranks[choice]['title'], 'description': ranks[choice]['description'], 'points': sumRanks(rankingArr) });
+                }
+                res.send({ 'chart_data': percentageRanks, 'poll_details': results[0], 'table_data': pollResults.sort(sortPollResults) });
+              })
           })
       });
   })

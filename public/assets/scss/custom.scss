@@ -17,7 +17,7 @@ $font-family-sans-serif: 'Lato', sans-serif;
 $font-family-base: $font-family-sans-serif;
 
 // elements
-$body-bg: $black;
+$body-bg: $dark-blue;
 $jumbotron-padding: 0;
 $button-color: #89817D;
 $headings-color: $white;  
@@ -26,6 +26,31 @@ $link-hover-color: $navajo-white;
 
 //Bootstrap sass Files
 @import "node_modules/bootstrap/scss/bootstrap";
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+.section-one-page {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.section-multiple {
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+.section-subsection {
+  padding-top: 2rem;
+  padding-bottom: 2rem; 
+}
 
 .heading-custom {
   text-align: center;
@@ -38,7 +63,7 @@ $link-hover-color: $navajo-white;
 
 .navbar {
   width: 100%;
-  background-color: $dark-blue !important;
+  background-color: $black !important;
 
   @media(max-width:34em) {
     background: black !important;
@@ -150,9 +175,15 @@ $link-hover-color: $navajo-white;
   text-align: center;
 }
 
+.subheading-page {
+  font-size: 2.5em;
+  padding: 0 2rem 2rem 2rem;
+  text-align: center;
+}
+
 .heading-form {
-  font-size: 2.7em;
-  padding: 2rem 2rem 2rem;
+  font-size: 2em;
+  padding: 2rem 2rem 1rem 2rem;
   text-align: center;
 }
 
@@ -198,6 +229,11 @@ $link-hover-color: $navajo-white;
   font-style: italic;
 }
 
+.table {
+  color: $white;
+  font-size: 1.2em;
+}
+
 #table-poll-details {
   color: $white;
   font-size: 1.2em;
@@ -207,8 +243,28 @@ $link-hover-color: $navajo-white;
   }
 }
 
-/* use @mixins */
 .btn-custom {
+  margin: 2rem;
+}
+
+.error-message {
+  margin: 3rem;
+ 
+}
+
+.error-message > h1 {
+  font-size: 3.5em;
+}
+
+.error-message > p {
+  font-size: 1.5em;
+  color: $white;
+}
+
+
+
+/* use @mixins */
+.btn-jumbotron {
   @include button-variant($button-color, darken($button-color, 7.5%), darken($button-color, 10%), lighten($button-color,5%), lighten($button-color, 10%), darken($button-color,30%));
 }
 .btn-primary {
