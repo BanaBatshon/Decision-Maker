@@ -1,22 +1,23 @@
 $(() => {
   let search = location.search.substring(1).slice(4);
-  displayResults(search);
-  renderPollDetails(search);
-  showTable(search);
+  getPollDetails(search);
 });
 
-function renderPollDetails(key) {
+/**
+ * Get poll data from server
+ * @param {string} key 
+ */
+function getPollDetails(key) {
   $.ajax({
     url: `/polls/${key}/admin/`,
     method: 'GET',
     success: function (results) {
-      console.log(results);
-      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${results.poll_details.title}</td></tr>`);
-      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Creator Email:</td><td>${results.poll_details.creator_email}</td></tr>`);
-      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Created At:</td><td>${results.poll_details.timestamp}</td></tr>`);
-      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Admin URL:</td><td><a href="/admin.html?key=${results.poll_details.admin_url_id}">${results.poll_details.admin_url_id}</a></td></tr>`);
-      $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Submission URL:</td><td><a href="/fill_poll.html?key=${results.poll_details.submission_url_id}">${results.poll_details.submission_url_id}</a></td></tr>`);
+      renderPollDetails(results.poll_details);
 
+      // Render only if poll has 1 or more submissions
+      if (results.table_data !== undefined) {
+        renderPollResults(results.table_data);
+      }
     },
     error: function (err) {
       console.log(err);
@@ -24,12 +25,60 @@ function renderPollDetails(key) {
   });
 }
 
+/**
+ * Renders poll details
+ * @param {object} poll 
+ */
+function renderPollDetails(poll) {
+  // $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${results.poll_details.title}</td></tr>`);
+  $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${poll.title}</td></tr>`);
+  $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Creator Email:</td><td>${poll.creator_email}</td></tr>`);
+  $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Created At:</td><td>${poll.timestamp}</td></tr>`);
+  $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Admin URL:</td><td><a href="/admin.html?key=${poll.admin_url_id}">${poll.admin_url_id}</a></td></tr>`);
+  $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Submission URL:</td><td><a href="/fill_poll.html?key=${poll.submission_url_id}">${poll.submission_url_id}</a></td></tr>`);
+}
+
+/**
+ * Renders poll results
+ * @param {object} choices 
+ */
+function renderPollResults(choices) {
+  var $pollResultsSection = $('#poll-results > div')
+  var $h3 = $('<h3 class="subheading-page">Poll Results</h3>');
+  $pollResultsSection.append($h3);
+
+  var $tableDiv = $('<div class="form-group row d-flex justify-content-center">');
+  var $table = $('<table id="table-poll-results" class="table w-auto table-borderless">');
+  var $thead = $('<thead>');
+  var $tbody = $('<tbody>');
+  var $tr = $('<tr>');
+  var $rankHeading = $('<th scope="col">Rank</th>');
+  var $titleHeading = $('<th scope="col">Option Title</th>');
+  var $descHeading = $('<th scope="col">Option Description</th>');
+  var $pointsHeading = $('<th scope="col">Points</th>');
+
+  $tr.append($rankHeading);
+  $tr.append($titleHeading);
+  $tr.append($descHeading);
+  $tr.append($pointsHeading);
+
+  $thead.append($tr);
+  $table.append($thead);
+  $table.append($tbody);
+  $tableDiv.append($table);
+  $pollResultsSection.append($tableDiv);
+
+  choices.forEach(function (choice, index) {
+    $('#table-poll-results > tbody').append(`<tr><td class="poll-details-heading">${index + 1}</td><td>${choice.title}</td><td>${choice.description}</td><td>${choice.points}</td></tr>`);
+  })
+}
+
 function displayResults(key) {
   $.ajax({
     url: `/polls/${key}/admin/`, method: 'GET', success: function (resultsObj) {
       let resultArr = [];
-      resultsObj.chart_data.forEach(function(choice, index) {
-        resultArr.push({ y: Math.round(choice['percentage'] * 10) / 10, label: choice['title']});
+      resultsObj.chart_data.forEach(function (choice, index) {
+        resultArr.push({ y: Math.round(choice['percentage'] * 10) / 10, label: choice['title'] });
       })
       var chart = new CanvasJS.Chart("chartContainer",
         {
