@@ -13,8 +13,8 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="./index.html"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50"
-        viewBox="0 0 192 192" style=" fill:#000000;">
+    <a class="navbar-brand" href="./index.html"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50"
+        height="50" viewBox="0 0 192 192" style=" fill:#000000;">
         <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"
           stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
           font-size="none" text-anchor="none" style="mix-blend-mode: normal">
@@ -35,10 +35,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="./polls.html">Create Poll</a>
+            <a class="nav-link" href="/polls.html">Create Poll</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">How It Works</a>
+            <a class="nav-link" href="#how-it-works">How It Works</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Help</a>
@@ -51,54 +51,54 @@
       <div class="row d-flex justify-content-center jumbotron-content">
         <h1>Need Help Deciding?</h1>
         <p>Decision Maker helps you and your groups of friends to vote on a preferred choice (using ranked voting)</p>
-        <button type="button" class="btn btn-primary btn-lg btn-jumbotron">Get Started</button>
+        <button id="jumbotron-get-started-btn" type="button" class="btn btn-primary btn-lg btn-jumbotron">Get Started</button>
       </div>
-
       <div class="text-center imageguy">
-        <!-- <img class="img-responsive" src="./img/dude.png" alt=""> -->
-
-      </div>
-
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="section-container">
-      <h1 class="heading-custom">How It Works</h1>
-      <div class="row">
-        <div class="col-sm-12 col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title text-center"><i class="fas fa-poll fa-large-icon"></i></h4>
-              <h5 class="card-title text-center card-title-how-it-works">Create Poll</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title text-center"><i class="fas fa-users fa-large-icon"></i></h4>
-              <h5 class="card-title text-center card-title-how-it-works">Invite Participants</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title text-center"><i class="fas fa-arrows-alt fa-large-icon"></i></h4>
-              <h5 class="card-title text-center card-title-how-it-works">Rank choices</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
+
+  <main>
+    <section class="section-multiple" id="how-it-works">
+      <div class="container">
+        <h1 class="heading-custom">How It Works</h1>
+        <div class="row">
+          <div class="col-sm-12 col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title text-center"><i class="fas fa-poll fa-large-icon"></i></h4>
+                <h5 class="card-title text-center card-title-how-it-works">Create Poll</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title text-center"><i class="fas fa-users fa-large-icon"></i></h4>
+                <h5 class="card-title text-center card-title-how-it-works">Invite Participants</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title text-center"><i class="fas fa-arrows-alt fa-large-icon"></i></h4>
+                <h5 class="card-title text-center card-title-how-it-works">Rank choices</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+  </main>
   <footer class="page-footer font-small blue">
     <div class="footer-copyright text-center py-3">© 2019 Copyright</div>
   </footer>
@@ -106,7 +106,7 @@
   <script src="bin/js/jquery.min.js"></script>
   <script src="bin/js/popper.min.js"></script>
   <script src="bin/js/bootstrap.min.js"></script>
-  <script src="bin/js/app.js"></script>
+  <script src="bin/js/index.js"></script>
 </body>
 
 </html>

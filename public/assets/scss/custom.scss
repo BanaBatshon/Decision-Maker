@@ -17,7 +17,7 @@ $font-family-sans-serif: 'Lato', sans-serif;
 $font-family-base: $font-family-sans-serif;
 
 // elements
-$body-bg: $black;
+$body-bg: $dark-blue;
 $jumbotron-padding: 0;
 $button-color: #89817D;
 $headings-color: $white;  
@@ -37,13 +37,19 @@ main {
   flex: 1;
 }
 
-section {
-  margin-bottom: 5rem;
-}
-
 .section-one-page {
   margin-top: 5rem;
   margin-bottom: 5rem;
+}
+
+.section-multiple {
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+.section-subsection {
+  padding-top: 2rem;
+  padding-bottom: 2rem; 
 }
 
 .heading-custom {
@@ -57,7 +63,7 @@ section {
 
 .navbar {
   width: 100%;
-  background-color: $dark-blue !important;
+  background-color: $black !important;
 
   @media(max-width:34em) {
     background: black !important;
