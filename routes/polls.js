@@ -19,15 +19,25 @@ function generateRandomString() {
   return crypto.randomBytes(3).toString('hex');
 }
 
+function CalculateSumPoints (numChoices) {
+  let sumPoints = 0;
+  let maxVote = numChoices;
+  while (maxVote > 0) {
+    sumPoints += maxVote;
+    maxVote --;
+  }
+  return sumPoints;
+}
+
 function bordaCount(rankingArr, numChoices) {
-  const percentagePerPoint = (numChoices * (numChoices + 1)) / 2
+  const sumOfPoints = CalculateSumPoints(numChoices)
+  const percentagePerPoint = 100 / sumOfPoints;
   const points = [];
   for (let rank of rankingArr) {
     points.push(((numChoices + 1) - rank) * percentagePerPoint);
   }
   return points.reduce((a, b) => a + b, 0) / points.length //finds final percentage
 }
-
 
 function sumRanks(rankingArr) {
   let finalRank = 0;
@@ -94,7 +104,7 @@ module.exports = (knex) => {
       .where('polls.admin_url_id', '=', admin_id)
       .then((results) => {
         // no submissions, return just the poll details
-        if (id.length === 0) {
+        if (results.length === 0) {
           res.send({ 'poll': results[0] });
           return;
         }
@@ -107,7 +117,6 @@ module.exports = (knex) => {
           .then(function (result, error) {
             const ranks = {};
             let size = 0;
-
             for (let row of result) {
               if (ranks[row.choice_id] === undefined) {
                 size++;
@@ -116,7 +125,7 @@ module.exports = (knex) => {
                 ranks[row.choice_id]["rank"].push(row.rank)
               }
             }
-
+            
             //takes the rank array of eavh movie and converts it into a final percentage based on the borda count algorithm
             const percentageRanks = [];
             const sumOfRanks = [];
