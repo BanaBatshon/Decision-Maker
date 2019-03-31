@@ -126,7 +126,7 @@ function renderPollChoices(choices) {
     $ul.append(renderChoiceElement(choice, index));
   });
 
-  $('#respond-to-poll-options').sortable({
+  $ul.sortable({
     helper: 'clone',
     sort: function (e, ui) {
       $(ui.placeholder).html(Number($("#respond-to-poll-options > li:visible").index(ui.placeholder)) + 1);
