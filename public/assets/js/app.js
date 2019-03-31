@@ -12,7 +12,6 @@ function getPollDataAndRender(key) {
     url: `/polls/${key}/admin/`,
     method: 'GET',
     success: function (results) {
-      console.log(results);
       renderPollDetails(results.poll_details);
 
       // Render only if poll has 1 or more submissions
@@ -88,7 +87,7 @@ function renderChart(choices) {
   });
 
   var chart = new CanvasJS.Chart("chartContainer", {
-    theme: "dark2", // "light1", "light2", "dark1", "dark2"
+    theme: "dark2",
     exportEnabled: false,
     animationEnabled: true,
     backgroundColor: '#000',
@@ -104,33 +103,4 @@ function renderChart(choices) {
     }]
   });
   chart.render();
-}
-
-function showTable(key) {
-  let $table = $("#resultsTable")
-  let $headingOption = $("<th></th>")
-  let $headingRank = $("<th></th>")
-  let $row = $("<tr></tr>")
-  $headingOption.append('Option')
-  $headingRank.append('Rank')
-  $row.append($headingOption)
-  $row.append($headingRank)
-  $table.append($row)
-  $.ajax({
-    url: `/polls/${key}/admin/`, method: 'GET', success: function (resultsObj) {
-      for (let choice in resultsObj.chart_data) {
-        $row = $("<tr></tr>")
-        $cellMovie = $("<td></td>")
-        $cellRank = $("<td></td>")
-        $cellMovie.append(choice)
-        $cellRank.append(Math.round(resultsObj.chart_data[choice] * 10) / 10)
-        $row.append($cellMovie)
-        $row.append($cellRank)
-        $table.append($row)
-      }
-    },
-    error: function (err) {
-      console.log("there was an error getting the results");
-    }
-  });
 }
