@@ -28,13 +28,27 @@ function bordaCount(rankingArr, numChoices) {
   return points.reduce((a, b) => a + b, 0) / points.length //finds final percentage
 }
 
-
 function sumRanks(rankingArr) {
   let finalRank = 0;
   for (let rank of rankingArr) {
     finalRank += rank;
   }
   return finalRank;
+}
+
+/**
+ * Sort poll results by total points in descending order
+ * @param {*} a 
+ * @param {*} b 
+ */
+function sortPollResults(a, b) {
+  if (a.points < b.points) {
+    return 1;
+  }
+  if (a.points > b.points) {
+    return -1;
+  }
+  return 0;
 }
 
 module.exports = (knex) => {
@@ -128,7 +142,7 @@ module.exports = (knex) => {
                   percentageRanks.push({ 'title': ranks[choice]['title'], 'percentage': bordaCount(rankingArr, size) });
                   sumOfRanks.push({ 'title': ranks[choice]['title'], 'points': sumRanks(rankingArr) });
                 }
-                res.send({ 'chart_data': percentageRanks, 'poll_details': results[0], 'table_data': sumOfRanks });
+                res.send({ 'chart_data': percentageRanks, 'poll_details': results[0], 'table_data': sumOfRanks.sort(sortPollResults) });
               })
           })
       });
