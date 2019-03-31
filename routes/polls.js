@@ -34,7 +34,7 @@ function bordaCount(rankingArr, numChoices) {
   const percentagePerPoint = 100 / sumOfPoints;
   const points = [];
   for (let rank of rankingArr) {
-    points.push(((numChoices + 1) - rank) * percentagePerPoint);
+    points.push(rank * percentagePerPoint);
   }
   return points.reduce((a, b) => a + b, 0) / points.length //finds final percentage
 }
