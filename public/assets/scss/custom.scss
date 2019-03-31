@@ -27,6 +27,25 @@ $link-hover-color: $navajo-white;
 //Bootstrap sass Files
 @import "node_modules/bootstrap/scss/bootstrap";
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+section {
+  margin-bottom: 5rem;
+}
+
+.section-one-page {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
 .heading-custom {
   text-align: center;
   padding: 4rem;
@@ -218,13 +237,25 @@ $link-hover-color: $navajo-white;
   }
 }
 
-section {
-  margin-bottom: 5rem;
-}
-
 .btn-custom {
   margin: 2rem;
 }
+
+.error-message {
+  margin: 3rem;
+ 
+}
+
+.error-message > h1 {
+  font-size: 3.5em;
+}
+
+.error-message > p {
+  font-size: 1.5em;
+  color: $white;
+}
+
+
 
 /* use @mixins */
 .btn-jumbotron {
