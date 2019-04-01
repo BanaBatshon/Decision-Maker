@@ -40,7 +40,7 @@ $(() => {
     let $counterColDiv = $('<div class="col-1 p-2">');
     let $label = $(`<label class="col-sm-1 col-form-label">${num + 1}.</label>`);
     let $optionColDiv = $('<div class="col-4 p-2">');
-    $input = $('<input type="text" class="form-control form-control-lg" placeholder="Option (Required)" required>');
+    $input = $('<input type="text" class="form-control form-control-lg" placeholder="Title" required>');
 
     let $inputValidation = $('<div class="invalid-feedback">Please enter a option name</div>');
 
