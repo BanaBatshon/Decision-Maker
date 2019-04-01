@@ -1,4 +1,3 @@
-// create all routs or at least try to
 "use strict";
 
 const express = require('express');
@@ -19,6 +18,7 @@ function generateRandomString() {
   return crypto.randomBytes(3).toString('hex');
 }
 
+// Calculates the total points for all options after voting. Needed for the algorithm function below
 function CalculateSumPoints (numChoices) {
   let sumPoints = 0;
   let maxVote = numChoices;
@@ -29,6 +29,7 @@ function CalculateSumPoints (numChoices) {
   return sumPoints;
 }
 
+// Algorithm used to find the final percentage per option to display on pie chart
 function bordaCount(rankingArr, numChoices) {
   const sumOfPoints = CalculateSumPoints(numChoices)
   const percentagePerPoint = 100 / sumOfPoints;
@@ -39,6 +40,7 @@ function bordaCount(rankingArr, numChoices) {
   return points.reduce((a, b) => a + b, 0) / points.length //finds final percentage
 }
 
+// Calculates the total points per options after voting is done
 function sumRanks(rankingArr) {
   let finalRank = 0;
   for (let rank of rankingArr) {
@@ -119,6 +121,7 @@ module.exports = (knex) => {
       })
   });
 
+  // displays the poll options for users to vote
   router.get('/:id/', (req, res) => {
     let id = req.params.id;
     knex.select('id', 'title').from('polls')
@@ -136,6 +139,7 @@ module.exports = (knex) => {
       });
   });
 
+  // Displays the results page
   router.get('/:id/admin', (req, res) => {
     let admin_id = req.params.id;
     knex.select('*').from('polls')
@@ -158,7 +162,7 @@ module.exports = (knex) => {
               .orderBy('choice_id')
               .then(function (result, error) {
                 const ranks = {};
-                let size = 0;
+                let size = 0; // used in for loop below to calculate the final number of options. Required for algorithm above
 
                 for (let row of result) {
                   if (ranks[row.choice_id] === undefined) {
@@ -184,6 +188,7 @@ module.exports = (knex) => {
       });
   })
 
+  // Obtains info from user and inserts it into database
   router.post('/:id/', (req, res) => {
     let name = req.body.name;
     let ranked_choices = req.body.choiceArr;
