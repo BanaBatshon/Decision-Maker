@@ -145,10 +145,15 @@ module.exports = (knex) => {
     knex.select('*').from('polls')
       .where('admin_url_id', '=', admin_id)
       .then(function (poll) {
+        if (poll.length === 0) {
+          res.status(404).send('Not Found');
+          return;
+        }
         knex('polls').join('submissions', { 'polls.id': 'submissions.poll_id' })
           .select('*')
           .where('polls.admin_url_id', '=', admin_id)
           .then((results) => {
+            console.log('results', results)
             // no submissions, return just the poll details
             if (results.length === 0) {
               res.send({ 'poll_details': poll[0] });

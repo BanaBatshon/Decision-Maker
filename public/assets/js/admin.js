@@ -12,19 +12,24 @@ function getPollDataAndRender(key) {
     url: `/polls/${key}/admin/`,
     method: 'GET',
     success: function (results) {
-      renderPollDetails(results.poll_details);
+      var pollDetails = results.poll_details;
+      var tableData = results.table_data;
+      var chartData = results.chart_data;
 
-      // Render only if poll has 1 or more submissions
-      if (results.table_data !== undefined) {
-        renderPollResults(results.table_data);
+      renderPollDetails(pollDetails);
+
+      // no data to display, remove excess whtie space
+      if (tableData === undefined && chartData === undefined) {
+        removePollResultsAndChart();
+        return;
       }
 
-      if (results.chart_data !== undefined) {
-        renderChart(results.chart_data);
-      }
+      renderPollResults(tableData);
+      renderChart(chartData);
     },
     error: function (err) {
       console.log(err);
+      renderErrorPage();
     }
   });
 }
@@ -34,6 +39,7 @@ function getPollDataAndRender(key) {
  * @param {object} poll 
  */
 function renderPollDetails(poll) {
+  $('#poll-details .container').prepend('<h1 class="heading-page">Poll Details</h1>');
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${poll.title}</td></tr>`);
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Creator Email:</td><td>${poll.creator_email}</td></tr>`);
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Created On:</td><td>${moment(poll.timestamp).format('MMMM D, YYYY')}</td></tr>`);
@@ -103,4 +109,33 @@ function renderChart(choices) {
     }]
   });
   chart.render();
+}
+
+/**
+ * Render error page when link is invalid
+ */
+function renderErrorPage() {
+  var $pollDetailsSection = $('#poll-details > div')
+  removePollResultsAndChart();
+  $pollDetailsSection.css('display','flex');
+  var $errorDiv = $('<div class="error-message row d-flex flex-column justify-content-center">');
+  var $h1 = $(`<h1>Page not found</h1>`);
+  var $p = $('<p>Sorry, the requested url was not found on the server.</p>')
+  var $imgDiv = $('<div class="row d-flex flex-column justify-content-center">');
+  var $img = $('<img src="/assets/img/404_dude.png">')
+
+  $errorDiv.append($h1);
+  $errorDiv.append($p);
+
+  $imgDiv.append($img);
+  $pollDetailsSection.append($errorDiv);
+  $pollDetailsSection.append($imgDiv);
+}
+
+/**
+ * Remove the results and chart section from the DOM
+ */
+function removePollResultsAndChart() {
+ $('#poll-results').remove();
+ $('#poll-chart').remove();
 }
