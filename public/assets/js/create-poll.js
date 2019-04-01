@@ -42,7 +42,7 @@ $(() => {
     let $optionColDiv = $('<div class="col-4 p-2">');
     $input = $('<input type="text" class="form-control form-control-lg" placeholder="Title" required>');
 
-    let $inputValidation = $('<div class="invalid-feedback">Please enter a option name</div>');
+    let $inputValidation = $('<div class="invalid-feedback">Please enter a option title</div>');
 
     let $descColDiv = $('<div class="col-4 p-2">');
     let $description = $('<input type="text" class="form-control form-control-lg" placeholder="Description (Optional)">');
