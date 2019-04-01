@@ -13,8 +13,8 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="/index.html"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50"
-        viewBox="0 0 192 192" style=" fill:#000000;">
+    <a class="navbar-brand" href="/index.html"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50"
+        height="50" viewBox="0 0 192 192" style=" fill:#000000;">
         <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"
           stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
           font-size="none" text-anchor="none" style="mix-blend-mode: normal">
@@ -51,19 +51,25 @@
     <div class="container">
       <div class="section-container">
         <h1 class="heading-page">Create Poll</h1>
-        <form>
+        <form id="create-poll-form" class="needs-validation" novalidate>
           <div class="form-group row d-flex justify-content-center">
             <div class="col-5 p-2">
               <label for="email" class="col-form-label">Email Address</label>
               <input class="form-control form-control-lg" id="email" type="text" aria-describedby="emailHelp"
-                placeholder="name@example.com">
+                placeholder="name@example.com" required>
+              <div class="invalid-feedback">
+                Please enter a email address.
+              </div>
             </div>
           </div>
           <div class="form-group row d-flex justify-content-center">
             <div class="col-5 p-2">
               <label for="pollName" class="col-form-label">Title</label>
               <input class="form-control form-control-lg" id="pollName" type="text"
-                placeholder="eg. What movie should we watch?">
+                placeholder="eg. What movie should we watch?" required>
+              <div class="invalid-feedback">
+                Please enter a poll title.
+              </div>
             </div>
           </div>
           <h2 class="subheading-page">Options</h2>
@@ -82,6 +88,26 @@
     <script src="bin/js/jquery.min.js"></script>
     <script src="bin/js/popper.min.js"></script>
     <script src="bin/js/bootstrap.min.js"></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
     <script type="text/javascript" src="/bin/js/create-poll.js"></script>
   </body>
 

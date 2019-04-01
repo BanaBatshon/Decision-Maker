@@ -74,19 +74,42 @@ function renderPollSelectionForm(poll) {
   $choosePollOptionsSection.append($h1);
 
   var $formDiv = $('<div class="form-group row d-flex justify-content-center">');
-  var $form = $('<form class="col-6">');
+  var $form = $('<form id="poll-selection-form" class="col-6 needs-validation" novalidate">');
   var $nameLabel = $('<label for="name" class="col-form-label">Please enter your name:</label>');
-  var $nameInput = $('<input class="form-control form-control-lg" id="name" type="text" aria-describedby="emailHelp" placeholder="eg. John Smith">');
+  var $nameInput = $('<input class="form-control form-control-lg" id="name" type="text" aria-describedby="emailHelp" placeholder="eg. John Smith" required>');
+  var $inputValidation = $('<div class="invalid-feedback">Please enter your name.</div>');
   var $h4 = $('<h4 class="heading-form">Rank the following options:</h4>');
   var $ul = $('<ul id="respond-to-poll-options" class="list-group options">');
   var $buttonDiv = $('<div class="row d-flex justify-content-around">');
   var $button = $('<button type="submit" class="btn btn-primary btn-lg btn-custom">Submit</button>');
+
+    $buttonDiv.append($button);
+
+  $form.append($nameLabel);
+  $form.append($nameInput);
+  $form.append($inputValidation);
+  $form.append($h4);
+  $form.append($ul);
+  $form.append($buttonDiv);
+
+  $formDiv.append($form);
+  $choosePollOptionsSection.append($formDiv);
 
   $button.on('click', function (e) {
     e.preventDefault();
     let choiceArr = [];
     let rank = $ul.children().length;
     let poll_id;
+
+    const $pollSelectionForm = $('#poll-selection-form');
+
+    if ($pollSelectionForm[0].checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      $pollSelectionForm.addClass('was-validated');
+      return;
+    }
+
     $ul.children().each(function () {
       let choiceObj = {};
       poll_id = $(this).attr('poll_id');
@@ -102,17 +125,6 @@ function renderPollSelectionForm(poll) {
         renderPostSubmissionPage();
       });
   });
-
-  $buttonDiv.append($button);
-
-  $form.append($nameLabel);
-  $form.append($nameInput);
-  $form.append($h4);
-  $form.append($ul);
-  $form.append($buttonDiv);
-
-  $formDiv.append($form);
-  $choosePollOptionsSection.append($formDiv);
 }
 
 /**
