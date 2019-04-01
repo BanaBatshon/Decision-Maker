@@ -147,7 +147,9 @@ function renderNoSubmissionsMessage() {
   var $pollDetailsSection = $('#poll-details');
   var $pollDetailsDiv = $('#poll-details > div')
   var $h3 = $('<h3 class="subheading-page">No submissions yet</h3>');
+  var $p = $('<p class="subheading-content">Table and chart results will be displayed here when a user completes a poll</p>');
 
   $pollDetailsDiv.append($h3);
+  $pollDetailsDiv.append($p);
   $pollDetailsSection.append($pollDetailsDiv);
 }
