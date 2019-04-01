@@ -18,7 +18,7 @@ function generateRandomString() {
   return crypto.randomBytes(3).toString('hex');
 }
 
-// Calculates the total points for all options after voting. Needed for the algorithm function below
+/** Calculates the total points for all options after voting. Needed for the algorithm function below */ 
 function CalculateSumPoints (numChoices) {
   let sumPoints = 0;
   let maxVote = numChoices;
@@ -29,7 +29,7 @@ function CalculateSumPoints (numChoices) {
   return sumPoints;
 }
 
-// Algorithm used to find the final percentage per option to display on pie chart
+ /** algorithm to calculate final percentage for each option to display on pie chart */
 function bordaCount(rankingArr, numChoices) {
   const sumOfPoints = CalculateSumPoints(numChoices)
   const percentagePerPoint = 100 / sumOfPoints;
@@ -40,7 +40,7 @@ function bordaCount(rankingArr, numChoices) {
   return points.reduce((a, b) => a + b, 0) / points.length //finds final percentage
 }
 
-// Calculates the total points per options after voting is done
+/** Calculates the total points per options after voting is done */ 
 function sumRanks(rankingArr) {
   let finalRank = 0;
   for (let rank of rankingArr) {
