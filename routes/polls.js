@@ -62,6 +62,27 @@ function sortPollResults(a, b) {
   return 0;
 }
 
+/**
+ * Render email tempalte for each new poll submission
+ * @param {string} name 
+ * @param {string} adminURL 
+ * @param {string} submissionURL 
+ * @param {string} email 
+ */
+function renderNewPollSubmissionEmail(name, adminURL, submissionURL, email) {
+  return `<!DOCTYPE html><html><head> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title>Decision Maker App</title> <meta name="viewport" content="width=device-width, initial-scale=1"> <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> <style>body{min-height: 100vh; color: #fff; font-family: "Lato", sans-serif;}section{background: #9D5C65}h1{font-size: 3em;}p{font-size: 1.3em;}button{background-color: #89817D; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;}.button{display: block; width: 115px; height: 25px; background: #89817D; padding: 15px 32px; text-align: center; border-radius: 5px; color: white; margin: 0 auto;}a{text-decoration: none; color: white; font-size: 1.2em;}a:hover, a:visited, a:link, a:active{text-decoration: none;}footer{background: #1A1B1D; color: #fff; font-size: 0.7em; padding: 1.5rem; text-align: center;}.container{margin: 0 auto; width: 500px; text-align: center; padding-top: 3rem; padding-bottom: 3rem;}</style></head><body> <main> <section> <div class="container"> <img src="http://hlhomes.ca/logos/icon_vertical.png"> <h1>${name} has made a poll submission!</h1> <p>Check to see how your poll is doing or share the poll with others! </p><p>Poll URL: http://localhost:8080/fill_poll.html?key=${submissionURL}</p><a class="button" href="http://localhost:8080/admin.html?key=${adminURL}">View Results</a> </div><footer> Note: This email was intended for ${email}. If you are not expecting this email, you can ignore it. </footer> </section> </main></body></html>`;
+}
+
+/**
+ * Render email template for newly created polls
+ * @param {string} adminURL 
+ * @param {string} submissionURL 
+ * @param {string} email 
+ */
+function renderNewPollCreatedEmail(adminURL, submissionURL, email) {
+  return `<!DOCTYPE html><html><head> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title>Decision Maker App</title> <meta name="viewport" content="width=device-width, initial-scale=1"> <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> <style>body{min-height: 100vh; color: #fff; font-family: "Lato", sans-serif;}section{background: #9D5C65}h1{font-size: 3em;}p{font-size: 1.3em;}button{background-color: #89817D; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;}.button{display: block; width: 115px; height: 25px; background: #89817D; padding: 15px 32px; text-align: center; border-radius: 5px; color: white; margin: 0 auto;}a{text-decoration: none; color: white; font-size: 1.2em;}a:hover, a:visited, a:link, a:active{text-decoration: none;}footer{background: #1A1B1D; color: #fff; font-size: 0.7em; padding: 1.5rem; text-align: center;}.container{margin: 0 auto; width: 500px; text-align: center; padding-top: 3rem; padding-bottom: 3rem;}</style></head><body> <main> <section> <div class="container"> <img src="http://hlhomes.ca/logos/icon_vertical.png"> <h1>Your poll has been created!</h1> <p>Check to see how your poll is doing or share the poll with others! </p><p>Poll URL: http://localhost:8080/fill_poll.html?key=${submissionURL}</p><a class="button" href="http://localhost:8080/admin.html?key=${adminURL}">View Results</a> </div><footer> Note: This email was intended for ${email}. If you are not expecting this email, you can ignore it. </footer> </section> </main></body></html>`;
+}
+
 module.exports = (knex) => {
   router.post("/new", (req, res) => {
     let data = req.body.data;
@@ -83,13 +104,12 @@ module.exports = (knex) => {
         }
         knex('choices').insert(choices_data)
           .then((result) => {
-            let html = `<div><ul><li>Share link: http://localhost:8080/fill_poll.html?key=${submission_url_id}</li>
-            <li>Admin link: http://localhost:8080/admin.html?key=${admin_url_id}</li></ul></div>`;
+            const emailTempate = renderNewPollCreatedEmail(admin_url_id, submission_url_id, data[0]);
             let mailOptions = {
               from: `"Decision Maker App" <${email.email}>`, // sender address
               to: data[0], // list of receivers
               subject: "Thanks for creating a poll", // Subject line
-              html: html // html body
+              html: emailTempate
             };
 
             transporter.sendMail(mailOptions, (err, info) => {
@@ -168,6 +188,7 @@ module.exports = (knex) => {
     let name = req.body.name;
     let ranked_choices = req.body.choiceArr;
     let poll_id = req.body.poll_id;
+
     knex('submissions').insert({ 'poll_id': poll_id, 'timestamp': new Date(), 'name': name })
       .returning('id')
       .then((id) => {
@@ -179,13 +200,12 @@ module.exports = (knex) => {
             knex.select('admin_url_id', 'submission_url_id', 'creator_email').from('polls')
               .where('id', '=', poll_id)
               .then((links) => {
-                let html = `<div><p>${name} has completed your poll!</p><br>
-              <p>Heres the link to your results/admin page: http://localhost:8080/admin.html?key=${links[0].admin_url_id}</p></div>`;
+                const emailTempate = renderNewPollSubmissionEmail(name, links[0].admin_url_id, links[0].submission_url_id, links[0].creator_email);
                 let mailOptions = {
-                  from: `"Decision Maker App" <${email.email}>`, // sender address
-                  to: links[0].creator_email, // list of receivers
-                  subject: `${name} submitted your poll!`, // Subject line
-                  html: html // html body
+                  from: `"Decision Maker App" <${email.email}>`,
+                  to: links[0].creator_email,
+                  subject: `${name} submitted your poll!`,
+                  html: emailTempate
                 };
                 transporter.sendMail(mailOptions, (err, info) => {
                   res.send();
