@@ -36,7 +36,7 @@ function getPollDataAndRender(key) {
 function renderPollDetails(poll) {
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Title:</td><td>${poll.title}</td></tr>`);
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Creator Email:</td><td>${poll.creator_email}</td></tr>`);
-  $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Created At:</td><td>${poll.timestamp}</td></tr>`);
+  $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Created On:</td><td>${moment(poll.timestamp).format('MMMM D, YYYY')}</td></tr>`);
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Admin URL:</td><td><a href="/admin.html?key=${poll.admin_url_id}">${poll.admin_url_id}</a></td></tr>`);
   $('#table-poll-details > tbody').append(`<tr><td class="poll-details-heading">Submission URL:</td><td><a href="/poll.html?key=${poll.submission_url_id}">${poll.submission_url_id}</a></td></tr>`);
 }
