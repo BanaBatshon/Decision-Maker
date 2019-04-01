@@ -20,7 +20,8 @@ function getPollDataAndRender(key) {
 
       // no data to display, remove excess whtie space
       if (tableData === undefined && chartData === undefined) {
-        removePollResultsAndChart();
+        removeChartSection();
+        renderNoSubmissionsMessage();
         return;
       }
 
@@ -116,7 +117,7 @@ function renderChart(choices) {
  */
 function renderErrorPage() {
   var $pollDetailsSection = $('#poll-details > div')
-  removePollResultsAndChart();
+  removeChartSection();
   $pollDetailsSection.css('display','flex');
   var $errorDiv = $('<div class="error-message row d-flex flex-column justify-content-center">');
   var $h1 = $(`<h1>Page not found</h1>`);
@@ -135,7 +136,18 @@ function renderErrorPage() {
 /**
  * Remove the results and chart section from the DOM
  */
-function removePollResultsAndChart() {
- $('#poll-results').remove();
+function removeChartSection() {
  $('#poll-chart').remove();
+}
+
+/**
+ * Renders no submissions message
+ */
+function renderNoSubmissionsMessage() {
+  var $pollDetailsSection = $('#poll-details');
+  var $pollDetailsDiv = $('#poll-details > div')
+  var $h3 = $('<h3 class="subheading-page">No submissions yet</h3>');
+
+  $pollDetailsDiv.append($h3);
+  $pollDetailsSection.append($pollDetailsDiv);
 }
