@@ -87,9 +87,9 @@ function renderNewPollCreatedEmail(adminURL, submissionURL, email) {
 
 module.exports = (knex) => {
   router.post("/new", (req, res) => {
-    let data = req.body.data;
-    let submission_url_id = generateRandomString();
-    let admin_url_id = generateRandomString();
+    const data = req.body.data;
+    const submission_url_id = generateRandomString();
+    const admin_url_id = generateRandomString();
     knex('polls').insert({
       creator_email: data[0], title: data[1], timestamp: new Date(),
       submission_url_id: submission_url_id, admin_url_id: admin_url_id
@@ -107,7 +107,7 @@ module.exports = (knex) => {
         knex('choices').insert(choices_data)
           .then((result) => {
             const emailTempate = renderNewPollCreatedEmail(admin_url_id, submission_url_id, data[0]);
-            let mailOptions = {
+            const mailOptions = {
               from: `"Decision Maker App" <${email.email}>`, // sender address
               to: data[0], // list of receivers
               subject: "Thanks for creating a poll", // Subject line
@@ -123,17 +123,17 @@ module.exports = (knex) => {
 
   // displays the poll options for users to vote
   router.get('/:id/', (req, res) => {
-    let id = req.params.id;
+    const id = req.params.id;
     knex.select('id', 'title').from('polls')
       .where('submission_url_id', '=', id)
-      .then(function (result) {
+      .then((result) => {
         if (result.length === 0) {
           res.status(404).send('Not Found');
           return;
         }
         knex.select('*').from('choices')
           .where('poll_id', '=', result[0].id)
-          .then(function (choices) {
+          .then((choices) => {
             res.send({ 'choices': choices, 'title': result[0].title });
           });
       });
@@ -141,10 +141,10 @@ module.exports = (knex) => {
 
   // Displays the results page
   router.get('/:id/admin', (req, res) => {
-    let admin_id = req.params.id;
+    const admin_id = req.params.id;
     knex.select('*').from('polls')
       .where('admin_url_id', '=', admin_id)
-      .then(function (poll) {
+      .then((poll) => {
         knex('polls').join('submissions', { 'polls.id': 'submissions.poll_id' })
           .select('*')
           .where('polls.admin_url_id', '=', admin_id)
@@ -160,7 +160,7 @@ module.exports = (knex) => {
               .select('choice_id', 'rank', 'title', 'description')
               .where('choices.poll_id', '=', results[0].poll_id)
               .orderBy('choice_id')
-              .then(function (result, error) {
+              .then((result, error) => {
                 const ranks = {};
                 let size = 0; // used in for loop below to calculate the final number of options. Required for algorithm above
 
@@ -190,9 +190,9 @@ module.exports = (knex) => {
 
   // Obtains info from user and inserts it into database
   router.post('/:id/', (req, res) => {
-    let name = req.body.name;
-    let ranked_choices = req.body.choiceArr;
-    let poll_id = req.body.poll_id;
+    const name = req.body.name;
+    const ranked_choices = req.body.choiceArr;
+    const poll_id = req.body.poll_id;
 
     knex('submissions').insert({ 'poll_id': poll_id, 'timestamp': new Date(), 'name': name })
       .returning('id')
@@ -206,7 +206,7 @@ module.exports = (knex) => {
               .where('id', '=', poll_id)
               .then((links) => {
                 const emailTempate = renderNewPollSubmissionEmail(name, links[0].admin_url_id, links[0].submission_url_id, links[0].creator_email);
-                let mailOptions = {
+                const mailOptions = {
                   from: `"Decision Maker App" <${email.email}>`,
                   to: links[0].creator_email,
                   subject: `${name} submitted your poll!`,
